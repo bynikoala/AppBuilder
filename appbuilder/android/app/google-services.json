@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "534130419126",
+    "firebase_url": "https://appbuilder-49675.firebaseio.com",
+    "project_id": "appbuilder-49675",
+    "storage_bucket": "appbuilder-49675.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:534130419126:android:22c3c43b53df13638ccd17",
+        "android_client_info": {
+          "package_name": "com.niku.appbuilder"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "534130419126-5l5isdmsc9o2u7m42fuends00qoevnv7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.niku.appbuilder",
+            "certificate_hash": "ba8d4221d74dfde8537a60e4483bafb23d310e8e"
+          }
+        },
+        {
+          "client_id": "534130419126-4on3tjnb593okvafgev8q80a9i4l5emn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBegYxZ3UFDDFjFWtOqPZNI1MCjAZAm83Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "534130419126-4on3tjnb593okvafgev8q80a9i4l5emn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
