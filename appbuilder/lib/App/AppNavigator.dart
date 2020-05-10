@@ -1,11 +1,17 @@
+import 'package:appbuilder/App/Design/AppColors.dart';
+import 'package:appbuilder/App/Design/AppDimensions.dart';
 import 'package:flutter/material.dart';
 
-class Home extends StatefulWidget {
+class AppNavigator extends StatefulWidget {
+  final AppColors ac;
+  final AppDimensions ad;
+  AppNavigator(this.ac, this.ad);
+
   @override
-  _HomeState createState() => _HomeState();
+  _AppNavigatorState createState() => _AppNavigatorState();
 }
 
-class _HomeState extends State<Home> {
+class _AppNavigatorState extends State<AppNavigator> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

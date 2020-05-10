@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 // This is my extremely poor attempt to making this app responsive...
@@ -15,25 +16,26 @@ import 'package:flutter/widgets.dart';
 
   */
 
-
-class Dimensions {
+class AppDimensions {
 
   double width;
   double height;
 
   // Horizontal Spaces
-  double hSmallSpace = 10;
-  double hMidSpace = 15;
-  double hBigSpace = 30;
-  double hGiantSpace = 100;
+  double hSmallSpace;
+  double hMidSpace;
+  double hBigSpace;
+  double hGiantSpace;
 
-  double textNewline = 7;
+  double textNewline;
+
+  double cardHeight;
 
   // Vertical Spaces
-  double vSmallSpace = 8;
-  double vMidSpace = 15;
-  double vBigSpace = 30;
-  double vGiantSpace = 100;
+  double vSmallSpace;
+  double vMidSpace;
+  double vBigSpace;
+  double vGiantSpace;
 
   double iconTextSpace;
 
@@ -46,7 +48,7 @@ class Dimensions {
   double midRadius;
   double bigRadius;
 
-  Dimensions(BuildContext context) {
+  AppDimensions(BuildContext context) {
     width = MediaQuery.of(context).size.width;
     height = MediaQuery.of(context).size.height;
 
@@ -54,9 +56,15 @@ class Dimensions {
   }
 
   init() {
+
+    // Horizontal
+    cardHeight = height/2.8;
+
     // Vertical
     iconTextSpace = 5;
     pictureMid = width/4;
+
+    textNewline = 8;
 
     // Circular
     smallRadius = 8;
@@ -104,5 +112,9 @@ class Dimensions {
 
   SizedBox iconText() {
     return SizedBox(width: iconTextSpace);
+  }
+
+  List<double> getFontSizes() {
+    return [20,20,];
   }
 }

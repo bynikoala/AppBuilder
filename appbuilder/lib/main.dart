@@ -1,23 +1,29 @@
 import 'package:flutter/material.dart';
 
-import 'App/Home.dart';
+import 'App/Design/AppDimensions.dart';
+import 'App/Design/AppColors.dart';
+import 'App/AppNavigator.dart';
+
+AppColors ac = AppColors('');
+AppDimensions ad;
 
 void main() {
-  runApp(MyApp());
+  runApp(AppBuilder());
 }
 
-class MyApp extends StatelessWidget {
+class AppBuilder extends StatelessWidget {
   @override
-  Widget build(BuildContext context) {
+  Widget build(context) {
+    ad = AppDimensions(context);
+
     return MaterialApp(
       title: 'AppBuilder',
       theme: ThemeData(
-        primarySwatch: Colors.red,
+        primarySwatch: ac.primary,
+        accentColor: ac.secondary,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: Home(),
-
+      home: AppNavigator(ac, ad),
     );
   }
 }
-
