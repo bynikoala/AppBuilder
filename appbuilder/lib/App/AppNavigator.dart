@@ -1,7 +1,6 @@
 import 'package:appbuilder/App/Design/AppColors.dart';
 import 'package:appbuilder/App/Design/AppDimensions.dart';
 import 'package:appbuilder/App/NikusWidgets/NikusLogin.dart';
-import 'package:appbuilder/main.dart';
 import 'package:flutter/material.dart';
 
 class AppNavigator extends StatefulWidget {

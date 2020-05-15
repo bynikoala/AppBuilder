@@ -15,7 +15,7 @@ class NikusLogin {
 
   NikusLogin({this.shape});
 
-  silentLogin(onSuccess(FirebaseUser user)) {
+  directLoginGoogle(onSuccess(FirebaseUser user)) {
     _loginWithGoogle(onSuccess);
   }
 
