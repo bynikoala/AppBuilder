@@ -21,21 +21,4 @@ class NikusWidgets {
       ),
     );
   }
-
-  Widget getScaffold({AppColors AppColors, Widget child, FloatingActionButton FloatingActionButton}) {
-    return Scaffold(
-      floatingActionButton: FloatingActionButton,
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            stops: [0.3, 1.0],
-            colors: [AppColors.grad1, AppColors.grad2],
-          ),
-        ),
-        child: child,
-      ),
-    );
-  }
 }

@@ -12,22 +12,23 @@ class NikusLogin {
 
   FirebaseAuth _auth = FirebaseAuth.instance;
   GoogleSignIn _googleSignIn = GoogleSignIn();
-  FirebaseUser _user;
 
   NikusLogin({this.shape});
 
-  getUser() => _user;
+  silentLogin(onSuccess(FirebaseUser user)) {
+    _loginWithGoogle(onSuccess);
+  }
 
   // TODO: onSuccess promise/closure!!
-  Widget getGoogleLoginButton({String text, String imagePath, Function onSuccess}) {
+  Widget getGoogleLoginButton({String text, String imagePath, onSuccess(FirebaseUser user)}) {
     return getLoginButton(text, imagePath, _loginWithGoogle, onSuccess);
   }
 
-  Widget getFacebookLoginButton(String text, String imagePath, Function onSuccess) {
+  Widget getFacebookLoginButton(String text, String imagePath, onSuccess(FirebaseUser user)) {
     return getLoginButton(text, imagePath, _loginWithFacebook, onSuccess);
   }
 
-  Widget getMailLoginButton(String text, String imagePath, Function onSuccess) {
+  Widget getMailLoginButton(String text, String imagePath, onSuccess(FirebaseUser user)) {
     return getLoginButton(text, imagePath, _loginWithFirebase, onSuccess);
   }
 
@@ -68,7 +69,7 @@ class NikusLogin {
     }
   }
 
-  Future<void> _loginWithGoogle(Function onSuccess) async {
+  Future<void> _loginWithGoogle(onSuccess(FirebaseUser user)) async {
     try {
       GoogleSignInAccount googleUser = await _googleSignIn.signIn();
       GoogleSignInAuthentication auth = await googleUser.authentication;
@@ -79,7 +80,6 @@ class NikusLogin {
 
       FirebaseUser user = await _login(result.user).then((usr) => onSuccess(usr));
 
-      this._user = user;
     } catch (e) {
       print("#GOOGLE SIGN IN ERROR: $e");
     }

@@ -197,7 +197,6 @@ class AppColors {
   }
 
   ThemeData getMaterialTheme() {
-    print(text);
     return ThemeData.dark().copyWith(
       primaryColor: primary,
       accentColor: secondary,
