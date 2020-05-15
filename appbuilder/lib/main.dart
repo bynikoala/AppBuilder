@@ -14,13 +14,10 @@ void main() {
 class AppBuilder extends StatelessWidget {
   @override
   Widget build(context) {
-    ad = AppDimensions(context);
 
     return MaterialApp(
       title: 'AppBuilder',
       theme: ThemeData(
-        primarySwatch: ac.primary,
-        accentColor: ac.secondary,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: AppNavigator(ac, ad),

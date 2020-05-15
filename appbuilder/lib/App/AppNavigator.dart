@@ -1,5 +1,7 @@
 import 'package:appbuilder/App/Design/AppColors.dart';
 import 'package:appbuilder/App/Design/AppDimensions.dart';
+import 'package:appbuilder/App/NikusWidgets/NikusLogin.dart';
+import 'package:appbuilder/main.dart';
 import 'package:flutter/material.dart';
 
 class AppNavigator extends StatefulWidget {
@@ -7,13 +9,18 @@ class AppNavigator extends StatefulWidget {
   final AppDimensions ad;
   AppNavigator(this.ac, this.ad);
 
+
   @override
   _AppNavigatorState createState() => _AppNavigatorState();
 }
 
 class _AppNavigatorState extends State<AppNavigator> {
+  NikusLogin loginForm;
+
   @override
   Widget build(BuildContext context) {
+    loginForm = NikusLogin.roundedCorner(ac, ad);
+
     return Scaffold(
       appBar: AppBar(
         title: Row(
@@ -43,12 +50,12 @@ class _AppNavigatorState extends State<AppNavigator> {
         ],
       ),
       body: Container(
-        color: Colors.white,
+        color: Colors.black,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Center(
-              child: Text('Guten Morgen'),
+              child: loginForm.getGoogleLoginButton("lib/Assets/Login/google_logo.png"),
             )
           ],
         )
