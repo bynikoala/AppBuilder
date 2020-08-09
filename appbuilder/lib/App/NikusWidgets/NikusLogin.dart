@@ -20,7 +20,8 @@ class NikusLogin {
   }
 
   // TODO: onSuccess promise/closure!!
-  Widget getGoogleLoginButton({String text, String imagePath, onSuccess(FirebaseUser user)}) {
+  Widget getGoogleLoginButton({String text = 'Login with Google', String imagePath = 'lib/Assets/Login/google_logo.png', @required onSuccess(FirebaseUser user)})
+  {
     return getLoginButton(text, imagePath, _loginWithGoogle, onSuccess);
   }
 
@@ -49,7 +50,7 @@ class NikusLogin {
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Image(image: AssetImage(imagePath), height: 35.0),
+                Image(image: AssetImage(imagePath, package: 'appbuilder'), height: 35.0),
                 Padding(
                   padding: const EdgeInsets.only(left: 10),
                   child: Text(

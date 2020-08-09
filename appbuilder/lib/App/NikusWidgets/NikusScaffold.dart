@@ -8,12 +8,13 @@ class NikusScaffold extends StatefulWidget {
   final AppBar appBar;
   final Widget child;
   final FloatingActionButton floatingActionButton;
+  final BottomNavigationBar bottomNavigationBar;
   final _mono;
 
-  NikusScaffold({this.appColors, this.appBar, this.child, this.floatingActionButton})
+  NikusScaffold({this.appColors, this.appBar, this.child, this.floatingActionButton, this.bottomNavigationBar})
       : _mono = false;
 
-  NikusScaffold.mono({this.appColors, this.appBar, this.child, this.floatingActionButton})
+  NikusScaffold.mono({this.appColors, this.appBar, this.child, this.floatingActionButton, this.bottomNavigationBar})
       : _mono = true;
 
   @override
@@ -26,6 +27,7 @@ class _NikusScaffoldState extends State<NikusScaffold> {
     Scaffold result = Scaffold(
       appBar: widget.appBar,
       floatingActionButton: widget.floatingActionButton,
+      bottomNavigationBar: widget.bottomNavigationBar,
       body: Container(
         decoration: widget._mono ? null : BoxDecoration(
           gradient: LinearGradient(

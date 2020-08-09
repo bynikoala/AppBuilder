@@ -1,6 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:meta/meta.dart';
 
-class Match {
+class Match with ChangeNotifier {
   final String id;
   final String name;
   final String gender;
@@ -54,4 +55,14 @@ class Match {
     'accountType': accountType,
     'points': points,
   };
+
+  accept() {
+
+  }
+
+  delete() {
+
+  }
+
+
 }

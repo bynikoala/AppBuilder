@@ -6,8 +6,9 @@ import 'package:flutter/material.dart';
 class AppNavigator extends StatefulWidget {
   final AppColors ac;
   final AppDimensions ad;
+  final Map<String, Object> config;
 
-  AppNavigator(this.ac, this.ad);
+  AppNavigator(this.ac, this.ad, this.config);
 
   @override
   _AppNavigatorState createState() => _AppNavigatorState();
@@ -18,7 +19,8 @@ class _AppNavigatorState extends State<AppNavigator> {
 
   @override
   Widget build(BuildContext context) {
-    loginForm = NikusLogin();
+    loginForm = NikusLogin(shape: 2);
+    List<String> auth = widget.config['auth'];
 
     return Scaffold(
       appBar: AppBar(
@@ -51,13 +53,28 @@ class _AppNavigatorState extends State<AppNavigator> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Center(
-                child: loginForm.getGoogleLoginButton(
-                  text: 'Mit Google einloggen',
-                  imagePath: "lib/Assets/Login/google_logo.png",
-                  onSuccess: (user) => {},
-                ),
-              )
+              auth == null
+                  ? {
+                      if (auth.contains('Google'))
+                        Center(
+                          child: loginForm.getGoogleLoginButton(
+                            text: 'Mit Google einloggen',
+                            imagePath: "lib/Assets/Login/google_logo.png",
+                            onSuccess: (user) => {},
+                          ),
+                        ),
+                      if (auth.contains('Facebook'))
+                        Center(
+                          child: Text('Facebook'),
+                        ),
+                      if (auth.contains('Mail'))
+                        Center(
+                          child: Text('Mail/PW'),
+                        ),
+                    }
+                  : Center(
+                      child: Text('Lets go'),
+                    )
             ],
           )),
     );

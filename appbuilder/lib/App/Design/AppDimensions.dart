@@ -57,14 +57,19 @@ class AppDimensions {
 
   init() {
 
-    // Horizontal
-    cardHeight = height/2.8;
-
     // Vertical
+    cardHeight = height/2.8;
+    vBigSpace = height/10;
+
+    // Horizontal
     iconTextSpace = 5;
     pictureMid = width/4;
+    pictureSmall = width/8;
 
     textNewline = 8;
+
+    hSmallSpace = width/16;
+    hMidSpace = width/8;
 
     // Circular
     smallRadius = 8;

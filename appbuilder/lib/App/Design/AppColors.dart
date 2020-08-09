@@ -43,6 +43,7 @@ class AppColors {
   // 3. Icon-colors
   Color icon;
   Color iconPrim;
+  Color iconPrimOutline;
   Color iconSec;
   Color iconAtt;
   Color iconApp;
@@ -75,7 +76,7 @@ class AppColors {
 
   AppColors(String design) {
     this.light = true;
-     initColors(design);
+    initColors(design);
   }
 
   AppColors.dark(String design) {
@@ -118,9 +119,7 @@ class AppColors {
 
     // 5. Theme
     else if (design == 'module5') {
-    }
-
-    else if (design == 'coachniku') {
+    } else if (design == 'coachniku') {
       setColors(
         StandardBackground: light ? Colors.white : Color(0xFF111111),
         Primary: Color(0xFFE36414),
@@ -129,10 +128,7 @@ class AppColors {
         Alternate: Color(0xFF0F4C5C),
         AlternateBackground: light ? Color(0xFF111111) : Colors.white,
       );
-    }
-
-
-    else {
+    } else {
       print('CorporateColors Error: design $design not found');
     }
 
@@ -168,6 +164,7 @@ class AppColors {
 
     // 3. Icon-colors
     iconPrim = primary;
+    iconPrimOutline = iconPrim.computeLuminance() < 0.5 ? Colors.white : Colors.black;
     iconSec = Colors.black54;
     iconAtt = Colors.redAccent;
     iconApp = Colors.lightGreen;
@@ -197,23 +194,60 @@ class AppColors {
   }
 
   ThemeData getMaterialTheme() {
-    return ThemeData.dark().copyWith(
-      primaryColor: primary,
-      accentColor: secondary,
-      backgroundColor: standardBackground,
-      buttonTheme: ButtonThemeData(
-        textTheme: ButtonTextTheme.primary,
-      ),
-      floatingActionButtonTheme: FloatingActionButtonThemeData(
-        backgroundColor: primary,
-        foregroundColor: text,
-      ),
-      appBarTheme: AppBarTheme(
-          color: primary, actionsIconTheme: IconThemeData(color: text)),
-      bottomAppBarColor: secondary,
-      bottomAppBarTheme: BottomAppBarTheme(
-        color: secondary,
-      ),
-    );
+    if (light) {
+      return ThemeData().copyWith(
+        primaryColor: primary,
+        accentColor: secondary,
+        backgroundColor: standardBackground,
+        buttonTheme: ButtonThemeData(
+          textTheme: ButtonTextTheme.primary,
+        ),
+        floatingActionButtonTheme: FloatingActionButtonThemeData(
+          backgroundColor: primary,
+          foregroundColor: iconPrimOutline,
+        ),
+        appBarTheme: AppBarTheme(
+          color: primary,
+          actionsIconTheme: IconThemeData(color: iconPrimOutline),
+        ),
+        bottomNavigationBarTheme: BottomNavigationBarThemeData(
+          selectedIconTheme: IconThemeData(
+            color: iconPrimOutline,
+          ),
+          selectedItemColor: iconPrimOutline,
+        ),
+        bottomAppBarColor: secondary,
+        bottomAppBarTheme: BottomAppBarTheme(
+          color: secondary,
+        ),
+      );
+    } else {
+      return ThemeData.dark().copyWith(
+        primaryColor: primary,
+        accentColor: secondary,
+        backgroundColor: standardBackground,
+        buttonTheme: ButtonThemeData(
+          textTheme: ButtonTextTheme.primary,
+        ),
+        floatingActionButtonTheme: FloatingActionButtonThemeData(
+          backgroundColor: primary,
+          foregroundColor: iconPrimOutline,
+        ),
+        appBarTheme: AppBarTheme(
+          color: primary,
+          actionsIconTheme: IconThemeData(color: iconPrimOutline),
+        ),
+        bottomNavigationBarTheme: BottomNavigationBarThemeData(
+          selectedIconTheme: IconThemeData(
+            color: iconPrimOutline,
+          ),
+          selectedItemColor: iconPrimOutline,
+        ),
+        bottomAppBarColor: secondary,
+        bottomAppBarTheme: BottomAppBarTheme(
+          color: secondary,
+        ),
+      );
+    }
   }
 }

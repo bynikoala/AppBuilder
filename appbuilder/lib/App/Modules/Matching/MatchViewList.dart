@@ -4,8 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-import 'Match.dart';
-import 'MatchPresenter.dart';
+import 'Model/Match.dart';
+import 'MatchController.dart';
 import 'MeetPersonPopup.dart';
 
 class MatchView extends StatefulWidget {
@@ -19,7 +19,7 @@ class MatchView extends StatefulWidget {
 class _MatchViewState extends State<MatchView> with AutomaticKeepAliveClientMixin {
   AppColors cc = AppColors('');
 
-  MatchPresenter _matchLogic = MatchPresenter();
+  MatchController _matchLogic = MatchController();
   MeetPersonPopup meetPopup = MeetPersonPopup();
   @override
   bool get wantKeepAlive => true;

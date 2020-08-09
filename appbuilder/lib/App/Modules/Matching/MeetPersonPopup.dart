@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:nsome/App/Design/CorporateColors.dart';
-import 'Match.dart';
+import 'Model/Match.dart';
 
 class MeetPersonPopup {
   MeetPersonPopup();

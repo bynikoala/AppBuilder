@@ -7,8 +7,8 @@ import 'package:nsome/App/Design/MaterialLoader.dart';
 import 'package:nsome/App/Design/Dimensions.dart';
 
 import '../Design/CorporateColors.dart';
-import 'Match.dart';
-import 'MatchPresenter.dart';
+import 'Model/Match.dart';
+import 'MatchController.dart';
 import 'MeetPersonPopup.dart';
 
 class MatchView extends StatefulWidget {
@@ -24,7 +24,7 @@ class _MatchViewState extends State<MatchView> {
   Dimensions dim;
   CorporateColors cc;
 
-  MatchPresenter _matchLogic;
+  MatchController _matchLogic;
   Future<List<Widget>> _matchList;
 
   int _currentSlide;
@@ -35,7 +35,7 @@ class _MatchViewState extends State<MatchView> {
     super.initState();
 
     // inital load
-    _matchLogic = MatchPresenter();
+    _matchLogic = MatchController();
     _matchList = updateAndGetMatchList();
     cc = widget.colors;
   }
