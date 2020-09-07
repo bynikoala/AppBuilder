@@ -60,6 +60,7 @@ class AppDimensions {
     // Vertical
     cardHeight = height/2.8;
     vBigSpace = height/10;
+    vGiantSpace = vBigSpace * 3;
 
     // Horizontal
     iconTextSpace = 5;
@@ -100,19 +101,19 @@ class AppDimensions {
   // 2. Horizontal Spaces
 
   SizedBox hTiny() {
-    return SizedBox(width: 2);
+    return SizedBox(width: hSmallSpace/2);
   }
   SizedBox hSmall() {
-    return SizedBox(width: 10);
+    return SizedBox(width: hSmallSpace);
   }
   SizedBox hMid() {
-    return SizedBox(width: 15);
+    return SizedBox(width: hMidSpace);
   }
   SizedBox hBig() {
-    return SizedBox(width: 30);
+    return SizedBox(width: hMidSpace*2);
   }
   SizedBox hGiant() {
-    return SizedBox(width: 50);
+    return SizedBox(width: hBigSpace*1.5);
   }
 
   SizedBox iconText() {

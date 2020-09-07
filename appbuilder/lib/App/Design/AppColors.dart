@@ -119,6 +119,7 @@ class AppColors {
 
     // 5. Theme
     else if (design == 'module5') {
+
     } else if (design == 'coachniku') {
       setColors(
         StandardBackground: light ? Colors.white : Color(0xFF111111),
@@ -127,6 +128,14 @@ class AppColors {
         Tertiary: Color(0xFF5F0F40),
         Alternate: Color(0xFF0F4C5C),
         AlternateBackground: light ? Color(0xFF111111) : Colors.white,
+      );
+    } else if (design == 'foostepz') {
+      setColors(
+        StandardBackground: light ? Colors.white : Color(0xFF111111),
+        Primary: Color(0xFF3957FF),
+        Secondary: Color(0xFF051b34),
+        Tertiary: Color(0xFF5F0F40),
+        Alternate: Color(0xFF0fdd47),
       );
     } else {
       print('CorporateColors Error: design $design not found');
