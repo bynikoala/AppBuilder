@@ -20,41 +20,50 @@ class NikusLogin {
   }
 
   // TODO: onSuccess promise/closure!!
-  Widget getGoogleLoginButton({String text = 'Mit Google einloggen', String imagePath = 'lib/Assets/Login/google_logo.png', @required onSuccess(User user)})
-  {
-    return getLoginButton(text, imagePath, _loginWithGoogle, onSuccess);
+  Widget getGoogleLoginButton(
+      {String text = 'Via Google einloggen',
+      String imagePath = 'lib/Assets/Login/google_logo.png',
+      double length,
+      double height,
+      Color color,
+      Color textColor,
+      @required onSuccess(User user)}) {
+    return getLoginButton(text, imagePath, _loginWithGoogle, onSuccess, length, height, color, textColor);
   }
 
-  Widget getFacebookLoginButton(String text, String imagePath, onSuccess(User user)) {
-    return getLoginButton(text, imagePath, _loginWithFacebook, onSuccess);
+  Widget getFacebookLoginButton(String text, String imagePath, onSuccess(User user), length, height, color, textColor) {
+    return getLoginButton(text, imagePath, _loginWithFacebook, onSuccess, length, height, color, textColor);
   }
 
-  Widget getMailLoginButton(String text, String imagePath, onSuccess(User user)) {
-    return getLoginButton(text, imagePath, _loginWithFirebase, onSuccess);
+  Widget getMailLoginButton(String text, String imagePath, onSuccess(User user), length, height, color, textColor) {
+    return getLoginButton(text, imagePath, _loginWithFirebase, onSuccess, length, height, color, textColor);
   }
 
-  Widget getLoginButton(String text, String imagePath, Function onPressed, Function onSuccess) {
+  Widget getLoginButton(
+      String text, String imagePath, Function onPressed, Function onSuccess, double length, double height, color, textColor) {
     switch (shape) {
       case 1:
         return OutlineButton(
           splashColor: Colors.grey,
           onPressed: () => onPressed(onSuccess),
           highlightElevation: 0,
-          borderSide: BorderSide(color: Colors.grey),
-          child: Padding(
+          borderSide: BorderSide(color: color),
+          child: Container(
+            width: length,
+            height: height,
             padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Image(image: AssetImage(imagePath, package: 'appbuilder'), height: 35.0),
+                Image(image: AssetImage(imagePath, package: 'appbuilder'), height: 25.0),
                 Padding(
                   padding: const EdgeInsets.only(left: 10),
                   child: Text(
                     text,
                     style: TextStyle(
                       fontSize: 20,
-                      color: Colors.grey,
+                      color: textColor,
                     ),
                   ),
                 )
@@ -102,12 +111,10 @@ class NikusLogin {
       GoogleSignInAccount googleUser = await _googleSignIn.signIn();
       GoogleSignInAuthentication auth = await googleUser.authentication;
 
-      AuthCredential credential =
-          GoogleAuthProvider.credential(idToken: auth.idToken, accessToken: auth.accessToken);
+      AuthCredential credential = GoogleAuthProvider.credential(idToken: auth.idToken, accessToken: auth.accessToken);
       UserCredential result = await _auth.signInWithCredential(credential);
 
       await _login(result.user).then((usr) => onSuccess(usr));
-
     } catch (e) {
       print("#GOOGLE SIGN IN ERROR: $e");
     }
@@ -125,6 +132,10 @@ class NikusLogin {
   _loginWithFirebase(Function onSuccess) {}
 
   logout() {}
+
+  Future<void> resetPw(String email) async {
+    await _auth.sendPasswordResetEmail(email: email);
+  }
 
   Future<User> _login(User user) async {
     assert(!user.isAnonymous);

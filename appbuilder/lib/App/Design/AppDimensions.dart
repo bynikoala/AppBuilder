@@ -36,6 +36,7 @@ class AppDimensions {
   double vMidSpace;
   double vBigSpace;
   double vGiantSpace;
+  double vButtonSpace;
 
   double iconTextSpace;
 
@@ -59,8 +60,10 @@ class AppDimensions {
 
     // Vertical
     cardHeight = height/2.8;
+    vMidSpace = height/20;
     vBigSpace = height/10;
     vGiantSpace = vBigSpace * 3;
+    vButtonSpace = vBigSpace * 4;
 
     // Horizontal
     iconTextSpace = 5;
@@ -71,6 +74,8 @@ class AppDimensions {
 
     hSmallSpace = width/16;
     hMidSpace = width/8;
+    hBigSpace = width/4;
+    hGiantSpace = width/2;
 
     // Circular
     smallRadius = 8;
