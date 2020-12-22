@@ -7,9 +7,9 @@ import 'App/AppNavigator.dart';
 AppColors ac = AppColors('');
 AppDimensions ad;
 
-void main() {
-  var config = {
-    'name': 'AppBuilder', // AppName
+void main(var config) {
+  config = {
+    'name': 'AppBuilder-Test', // AppName
     'theme': ['light', true], // Changeable Theme
     'auth': ['Google'], // Authetication Methods
     'modules': ['Map', 'Matching', 'ContactList', 'News'], // Modules for the app
