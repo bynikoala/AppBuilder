@@ -1,34 +1,30 @@
 import 'package:flutter/cupertino.dart';
-import 'package:meta/meta.dart';
 
 class Match with ChangeNotifier {
   final String id;
   final String name;
   final String gender;
-  final String job;
-  final String department;
   final String photoUrl;
-  final String sector;
-  final String company;
   final String bio;
   final int age;
-  final int accountType;
   final int points;
+  Match(
+    this.id,
+    this.name,
+    this.gender,
+    this.photoUrl,
+    this.bio,
+    this.age,
+    this.points,
+  );
 
-  Match({
-    @required this.id,
-    @required this.name,
-    @required this.gender,
-    @required this.job,
-    @required this.department,
-    @required this.photoUrl,
-    @required this.sector,
-    @required this.company,
-    @required this.bio,
-    @required this.age,
-    @required this.accountType,
-    @required this.points
-  });
+  Match.fromStream(this.id, Map<String, dynamic> doc)
+      : name = doc['name'],
+        gender = doc['gender'],
+        photoUrl = doc['photoUrl'],
+        bio = doc['bio'],
+        age = doc['age'],
+        points = doc['points'];
 
   String getStandardAvatar() {
     switch (gender) {
@@ -42,27 +38,12 @@ class Match with ChangeNotifier {
   }
 
   Map<String, dynamic> toJson() => {
-    'id': id,
-    'name': name,
-    'gender': gender,
-    'job': job,
-    'department': department,
-    'photoUrl': photoUrl,
-    'sector': sector,
-    'company': company,
-    'bio': bio,
-    'age': age,
-    'accountType': accountType,
-    'points': points,
-  };
-
-  accept() {
-
-  }
-
-  delete() {
-
-  }
-
-
+        'id': id,
+        'name': name,
+        'gender': gender,
+        'photoUrl': photoUrl,
+        'bio': bio,
+        'age': age,
+        'points': points,
+      };
 }

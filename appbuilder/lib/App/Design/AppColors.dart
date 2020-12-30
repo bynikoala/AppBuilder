@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 class AppColors {
   /*
   Corporate Colors
-  VERSION: 1
-  DATE EDITED: 04/05/2020
+  VERSION: 1.2
+  DATE LAST EDITED: 23/12/2020
   EDITOR: Nikola Hack
 
   This file contains the color-information of the app. Any change here should
@@ -13,15 +13,13 @@ class AppColors {
   as class-variables and got specialized for each module in the constructor.
   This modular structure makes the App-styling failsafe and dark-mode ready.
 
-  Take a look into Coporate Branding Colors for more info on Colors.
-
-  !IMPORTANT NOTE: Also take a look into main.dart for material Colors since
+  !IMPORTANT NOTE: Take a look into main.dart for material Colors since
   those are still being used over the app and especially for tests regarding new
   Material Widgets.
 
   */
 
-  bool light;
+  bool darkMode;
 
   // Backgrounds
   Color standardBackground;
@@ -75,46 +73,46 @@ class AppColors {
   // Customizing the Colors for each Module
 
   AppColors(String design) {
-    this.light = true;
+    this.darkMode = false;
     initColors(design);
   }
 
   AppColors.dark(String design) {
-    this.light = false;
+    this.darkMode = true;
     initColors(design);
   }
 
   initColors(String design) {
     // Standard Theme
-    if (design == 'standard' || design == '') {
+    if (design == 'orange' || design == 'standard' || design == '') {
       setColors(
-        StandardBackground: light ? Colors.white : Color(0xFF333333),
+        StandardBackground: darkMode ?  Color(0xFF333333) : Colors.white,
         Primary: Color(0xFFF98948),
         Secondary: Colors.amber,
         Tertiary: Color(0xFF9B8816),
         Alternate: Color(0xFF5D3A00),
-        AlternateBackground: light ? Color(0xFF333333) : Colors.white,
+        AlternateBackground: darkMode ? Colors.white : Color(0xFF333333),
       );
     }
 
     // 2. Theme
-    else if (design == 'module2') {
+    else if (design == 'purple') {
       setColors(
-        StandardBackground: light ? Colors.white : Color(0xFF333333),
+        StandardBackground: darkMode ? Color(0xFF333333) : Colors.white,
         Primary: Colors.purple,
         Secondary: Colors.purpleAccent,
         Tertiary: Colors.deepPurpleAccent,
         Alternate: Colors.deepPurple,
-        AlternateBackground: light ? Color(0xFF333333) : Colors.white,
+        AlternateBackground: darkMode ? Colors.white : Color(0xFF333333),
       );
     }
 
     // 3. Theme
-    else if (design == 'module3') {
+    else if (design == 'blue') {
     }
 
     // 4. Theme
-    else if (design == 'module4') {
+    else if (design == 'green') {
     }
 
     // 5. Theme
@@ -122,25 +120,33 @@ class AppColors {
 
     } else if (design == 'coachniku') {
       setColors(
-        StandardBackground: light ? Colors.white : Color(0xFF111111),
+        StandardBackground: darkMode ? Color(0xFF111111) : Colors.white,
         Primary: Color(0xFFE36414),
         Secondary: Color(0xFF9A031E),
         Tertiary: Color(0xFF5F0F40),
         Alternate: Color(0xFF0F4C5C),
-        AlternateBackground: light ? Color(0xFF111111) : Colors.white,
+        AlternateBackground: darkMode ? Colors.white : Color(0xFF111111),
       );
     } else if (design == 'foostepz') {
       setColors(
-        StandardBackground: light ? Colors.white : Color(0xFF111111),
+        StandardBackground: darkMode ? Color(0xFF111111) : Colors.white,
         Primary: Color(0xFF3957FF),
         Secondary: Color(0xFF051b34),
         Tertiary: Color(0xFF5F0F40),
         Alternate: Color(0xFF0fdd47),
       );
     } else {
-      print('CorporateColors Error: design $design not found');
+      print('CorporateColors: Warning - design ($design) not found - Proceeding with Standard-Design');
+      design = 'standard';
+      setColors(
+        StandardBackground: darkMode ?  Color(0xFF333333) : Colors.white,
+        Primary: Color(0xFFF98948),
+        Secondary: Colors.amber,
+        Tertiary: Color(0xFF9B8816),
+        Alternate: Color(0xFF5D3A00),
+        AlternateBackground: darkMode ? Colors.white : Color(0xFF333333),
+      );
     }
-
     // Init the remaining colors.
     _standard();
   }
@@ -162,11 +168,11 @@ class AppColors {
 
   _standard() {
     grad1 = standardBackground;
-    grad2 = light ? primary.withAlpha(10) : primary;
+    grad2 = darkMode ? primary : primary.withAlpha(10);
 
     // 2. Text-colors
-    text = light ? Colors.black : Colors.white;
-    textAlternate = light ? Colors.white : Colors.black;
+    text = darkMode ? Colors.white : Colors.black;
+    textAlternate = darkMode ? Colors.black : Colors.white;
     textAtt = primary;
     textApp = Colors.lightGreen;
     textOff = Colors.black54;
@@ -203,8 +209,8 @@ class AppColors {
   }
 
   ThemeData getMaterialTheme() {
-    if (light) {
-      return ThemeData().copyWith(
+    if (darkMode) {
+      return ThemeData.dark().copyWith(
         primaryColor: primary,
         accentColor: secondary,
         backgroundColor: standardBackground,
@@ -231,7 +237,7 @@ class AppColors {
         ),
       );
     } else {
-      return ThemeData.dark().copyWith(
+      return ThemeData().copyWith(
         primaryColor: primary,
         accentColor: secondary,
         backgroundColor: standardBackground,

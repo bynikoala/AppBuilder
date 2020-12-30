@@ -23,11 +23,13 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  firebase_core:
   firebase_auth:
   google_sign_in:
   cloud_firestore:
   cloud_functions:
-  provider:
+  shared_preferences:
+
 
 
 

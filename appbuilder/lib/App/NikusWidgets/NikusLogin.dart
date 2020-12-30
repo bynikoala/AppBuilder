@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import '../Settings/GlobalSettings.dart';
 
 import '../Design/AppColors.dart';
 import '../Design/AppDimensions.dart';
@@ -10,37 +11,36 @@ class NikusLogin {
   AppDimensions appDimensions;
   int shape;
 
-  FirebaseAuth _auth = FirebaseAuth.instance;
+  FirebaseAuth auth;
   GoogleSignIn _googleSignIn = GoogleSignIn();
 
-  NikusLogin({this.shape});
+  NikusLogin(this.auth, {this.shape = 1});
 
   directLoginGoogle(onSuccess(User user)) {
     _loginWithGoogle(onSuccess);
   }
 
-  // TODO: onSuccess promise/closure!!
-  Widget getGoogleLoginButton(
-      {String text = 'Via Google einloggen',
-      String imagePath = 'lib/Assets/Login/google_logo.png',
-      double length,
-      double height,
-      Color color,
-      Color textColor,
-      @required onSuccess(User user)}) {
+  OutlineButton getGoogleLoginButton({
+    String text = 'Via Google einloggen',
+    String imagePath = 'lib/Assets/Login/google_logo.png',
+    double length,
+    double height,
+    Color color,
+    Color textColor,
+    @required onSuccess(User user),
+  }) {
     return getLoginButton(text, imagePath, _loginWithGoogle, onSuccess, length, height, color, textColor);
   }
 
-  Widget getFacebookLoginButton(String text, String imagePath, onSuccess(User user), length, height, color, textColor) {
+  OutlineButton getFacebookLoginButton(String text, String imagePath, onSuccess(User user), length, height, color, textColor) {
     return getLoginButton(text, imagePath, _loginWithFacebook, onSuccess, length, height, color, textColor);
   }
 
-  Widget getMailLoginButton(String text, String imagePath, onSuccess(User user), length, height, color, textColor) {
+  OutlineButton getMailLoginButton(String text, String imagePath, onSuccess(User user), length, height, color, textColor) {
     return getLoginButton(text, imagePath, _loginWithFirebase, onSuccess, length, height, color, textColor);
   }
 
-  Widget getLoginButton(
-      String text, String imagePath, Function onPressed, Function onSuccess, double length, double height, color, textColor) {
+  OutlineButton getLoginButton(String text, String imagePath, Function onPressed, Function onSuccess, double length, double height, color, textColor) {
     switch (shape) {
       case 1:
         return OutlineButton(
@@ -100,19 +100,19 @@ class NikusLogin {
           ),
         );
       case 3:
-        return Container();
+        return OutlineButton();
       default:
-        return Container();
+        return OutlineButton();
     }
   }
 
   Future<void> _loginWithGoogle(onSuccess(User user)) async {
     try {
       GoogleSignInAccount googleUser = await _googleSignIn.signIn();
-      GoogleSignInAuthentication auth = await googleUser.authentication;
+      GoogleSignInAuthentication _auth = await googleUser.authentication;
 
-      AuthCredential credential = GoogleAuthProvider.credential(idToken: auth.idToken, accessToken: auth.accessToken);
-      UserCredential result = await _auth.signInWithCredential(credential);
+      AuthCredential credential = GoogleAuthProvider.credential(idToken: _auth.idToken, accessToken: _auth.accessToken);
+      UserCredential result = await auth.signInWithCredential(credential);
 
       await _login(result.user).then((usr) => onSuccess(usr));
     } catch (e) {
@@ -131,16 +131,18 @@ class NikusLogin {
 
   _loginWithFirebase(Function onSuccess) {}
 
-  logout() {}
+  logout() {
+    GlobalSettings.logout();
+  }
 
   Future<void> resetPw(String email) async {
-    await _auth.sendPasswordResetEmail(email: email);
+    await auth.sendPasswordResetEmail(email: email);
   }
 
   Future<User> _login(User user) async {
     assert(!user.isAnonymous);
     assert(await user.getIdToken() != null);
-    final currentUser = _auth.currentUser;
+    final currentUser = auth.currentUser;
     assert(user.uid == currentUser.uid);
 
     assert(user.email != null);

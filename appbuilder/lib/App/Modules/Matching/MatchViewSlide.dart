@@ -1,149 +1,99 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:nsome/App/Design/MaterialLoader.dart';
-import 'package:nsome/App/Design/Dimensions.dart';
-
-import '../Design/CorporateColors.dart';
 import 'Model/Match.dart';
 import 'MatchController.dart';
 import 'MeetPersonPopup.dart';
 
-class MatchView extends StatefulWidget {
-  const MatchView({Key key, @required this.currentUser, @required this.colors}) : super(key: key);
-  final FirebaseUser currentUser;
-  final CorporateColors colors;
+class MatchViewSlide extends StatefulWidget {
+  final MatchController _controller;
+
+  MatchViewSlide(this._controller);
 
   @override
-  _MatchViewState createState() => _MatchViewState();
+  _MatchViewSlideState createState() => _MatchViewSlideState();
 }
 
-class _MatchViewState extends State<MatchView> {
-  Dimensions dim;
-  CorporateColors cc;
-
-  MatchController _matchLogic;
-  Future<List<Widget>> _matchList;
-
+class _MatchViewSlideState extends State<MatchViewSlide> {
   int _currentSlide;
   int _slideCount;
 
   @override
-  void initState() {
-    super.initState();
-
-    // inital load
-    _matchLogic = MatchController();
-    _matchList = updateAndGetMatchList();
-    cc = widget.colors;
-  }
-
-  void refreshList() {
-    setState(() {
-      _matchList = updateAndGetMatchList();
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
-    dim = Dimensions(context);
-
-    return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            stops: [0.35, 1.0],
-            colors: [cc.grad1, cc.grad2],
-          ),
-        ),
-        child: Stack(
-          children: <Widget>[
-//            Column(
-//              mainAxisAlignment: MainAxisAlignment.end,
-//              children: <Widget>[
-//                Image.asset(
-//                  "lib/assets/backgrounds/nsome.png",
-//                  alignment: Alignment.center,
-//                  fit: BoxFit.none,
-//                ),
-//              ],
-//            ),
-            FutureBuilder<List<Widget>>(
-              future: _matchList,
-              builder: (context, AsyncSnapshot<List<Widget>> matchList) {
-                if (matchList.connectionState == ConnectionState.waiting) {
-                  return MaterialLoader().viewLoader(cc, 'Matches werden geladen...', dim);
-                } else if (matchList.connectionState == ConnectionState.done && matchList.hasData) {
-                  return Container(
-                    child: Column(
-                      children: <Widget>[
-                        dim.vMid(),
-                        Text(
-                          'Treffe jetzt interessante Leute!',
-                          style: TextStyle(fontSize: 20),
+    return Container(
+      child: Stack(
+        children: <Widget>[
+          StreamBuilder(
+            stream: widget._controller.stream,
+            builder: (context, AsyncSnapshot matchList) {
+              if (matchList.connectionState == ConnectionState.waiting) {
+                return MaterialLoader().viewLoader(cc, 'Matches werden geladen...', dim);
+              } else if (matchList.connectionState == ConnectionState.done && matchList.hasData) {
+                return Container(
+                  child: Column(
+                    children: <Widget>[
+                      dim.vMid(),
+                      Text(
+                        'Treffe jetzt interessante Leute!',
+                        style: TextStyle(fontSize: 20),
+                        textAlign: TextAlign.center,
+                      ),
+                      Container(
+                        margin: EdgeInsets.all(dim.vBigSpace),
+                        child: Text(
+                          'Tippe einfach auf eine Person, schau dir Ihr Profil an und entscheide ob du Sie kennenlernen möchtest.',
+                          style: TextStyle(fontSize: 16),
                           textAlign: TextAlign.center,
                         ),
-                        Container(
-                          margin: EdgeInsets.all(dim.vBigSpace),
-                          child: Text(
-                            'Tippe einfach auf eine Person, schau dir Ihr Profil an und entscheide ob du Sie kennenlernen möchtest.',
-                            style: TextStyle(fontSize: 16),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                        // Dotted indicator
-                        Center(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: List<Widget>.generate(
-                              _slideCount,
-                              (index) => Container(
-                                width: dim.hSmallSpace,
-                                height: dim.hSmallSpace,
-                                margin: EdgeInsets.symmetric(vertical: dim.vSmall().height, horizontal: dim.hTiny().width),
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: _currentSlide == index ? cc.dotAc : cc.dotIn,
-                                ),
+                      ),
+                      // Dotted indicator
+                      Center(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: List<Widget>.generate(
+                            _slideCount,
+                            (index) => Container(
+                              width: dim.hSmallSpace,
+                              height: dim.hSmallSpace,
+                              margin: EdgeInsets.symmetric(vertical: dim.vSmall().height, horizontal: dim.hTiny().width),
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: _currentSlide == index ? cc.dotAc : cc.dotIn,
                               ),
                             ),
                           ),
                         ),
-                        dim.vSmall(),
-                        CarouselSlider(
-                          height: dim.cardHeight,
-                          items: matchList.data,
-                          enlargeCenterPage: true,
-                          onPageChanged: (index) {
-                            setState(() {
-                              _currentSlide = index;
-                            });
-                          },
-                        ),
-                      ],
-                    ),
-                  );
-                } else {
-                  // Handle errors while connecting
-                  if (matchList.hasError) print('Error while loading Matches: ${matchList.error}');
-                  return InkWell(
-                    onTap: () => setState(() {}),
-                    child: Padding(
-                      padding: EdgeInsets.all(dim.vBigSpace),
-                      child: Center(
-                        child: Text("Fehler. Tippen um zu wiederholen."),
                       ),
+                      dim.vSmall(),
+                      CarouselSlider(
+                        height: dim.cardHeight,
+                        items: matchList.data,
+                        enlargeCenterPage: true,
+                        onPageChanged: (index) {
+                          setState(() {
+                            _currentSlide = index;
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+                );
+              } else {
+                // Handle errors while connecting
+                if (matchList.hasError) print('Error while loading Matches: ${matchList.error}');
+                return InkWell(
+                  onTap: () => setState(() {}),
+                  child: Padding(
+                    padding: EdgeInsets.all(dim.vBigSpace),
+                    child: Center(
+                      child: Text("Fehler. Tippen um zu wiederholen."),
                     ),
-                  );
-                }
-              },
-            ),
-          ],
-        ),
+                  ),
+                );
+              }
+            },
+          ),
+        ],
       ),
     );
   }
@@ -170,7 +120,8 @@ class _MatchViewState extends State<MatchView> {
         splashColor: match.accountType > 0 ? cc.cardInkP : cc.cardInk,
         highlightColor: match.accountType > 0 ? cc.cardInkP : cc.cardInk,
         onTap: () => MeetPersonPopup().popupBuilder(context, match, cc),
-        onLongPress: () {}, // TODO: Match-Menu -> Block, report?
+        onLongPress: () {},
+        // TODO: Match-Menu -> Block, report?
         // CONTENT
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
