@@ -15,9 +15,9 @@ class _NikusErrorState extends State<NikusError> {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: MaterialButton(
-        child: Text("Ein Fehler ist aufgetreten. Bitte tippen Sie hier um es erneut zu versuchen."),
-        onPressed: widget._onClick,
+      child: InkWell(
+        child: Text("Ein Fehler ist aufgetreten. Bitte tippen Sie hier um es erneut zu versuchen.", textAlign: TextAlign.center),
+        onTap: widget._onClick,
       ),
     );
   }

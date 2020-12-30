@@ -1,4 +1,4 @@
-import 'package:appbuilder/App/Design/AppColors.dart';
+import 'package:appbuilder/Config.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -7,7 +7,7 @@ import 'Settings/GlobalSettings.dart';
 
 class AppController {
   BuildContext context;
-  Map<String, List<String>> _config;
+  Config _config;
   AppView _av;
 
   Future<bool> loggedIn;
@@ -18,7 +18,7 @@ class AppController {
     _av = AppView(this);
   }
 
-  getFrame() => _av;
+  Widget getFrame() => _av;
 
   login(User user) {
     GlobalSettings.login(user);

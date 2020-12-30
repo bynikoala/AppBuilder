@@ -27,7 +27,7 @@ class _AppViewState extends State<AppView> {
   List<String> auth;
   String logo;
 
-  Map<String, Function()> classFactory;
+  Map<String, Widget> classFactory;
 
   List<BottomNavigationBarItem> menuItems;
   int pageIndex = 0;
@@ -36,26 +36,27 @@ class _AppViewState extends State<AppView> {
   @override
   Widget build(BuildContext context) {
     ad = AppDimensions(context);
-    ac = AppColors(GlobalSettings.getConfig()['color'][0]);
-    logo = GlobalSettings.getConfig()['logo'][0];
+    ac = AppColors(GlobalSettings.getConfig().color);
+    GlobalSettings.setDesign(ad, ac);
+    logo = GlobalSettings.getConfig().logo;
 
-    auth = GlobalSettings.getConfig()['auth'];
+    auth = GlobalSettings.getConfig().auth;
 
     classFactory = {
-      'Map': () => new MapController(),
-      'Matching': () => new MatchController(),
-      'ContactList': () => new ContactListController(),
-      'News': () => new NewsController(),
+      'Map': MapController().getView(),
+      'Matching': MatchController().getView(),
+      'ContactList': ContactListController().getView(),
+      'News': NewsController().getView(),
     };
 
-    menuItems = (GlobalSettings.getConfig()['modules']
+    menuItems = (GlobalSettings.getConfig().modules
         .map((item) => BottomNavigationBarItem(
               label: item.toString(),
               backgroundColor: ac.primary,
               icon: Icon(Icons.stream),
             ))
         .toList());
-    pages = (GlobalSettings.getConfig()['modules']
+    pages = (GlobalSettings.getConfig().modules
         .map((item) => classFactory[item])
         .toList());
 
@@ -134,7 +135,7 @@ class _AppViewState extends State<AppView> {
               onPressed: () => {print('AppButton')},
             ),
             SizedBox(width: 10),
-            Text(GlobalSettings.getConfig()['name'][0]),
+            Text(GlobalSettings.getConfig().name),
           ],
         ),
         actions: <Widget>[
@@ -150,7 +151,7 @@ class _AppViewState extends State<AppView> {
           )
         ],
       ),
-      body: getPage(),
+      body: pages[pageIndex],
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         backgroundColor: ac.primary,
@@ -158,9 +159,12 @@ class _AppViewState extends State<AppView> {
         unselectedItemColor: ac.alternateBackground,
         items: menuItems,
         currentIndex: pageIndex,
+        onTap: ((newIndex) {
+          setState(() {
+            pageIndex = newIndex;
+          });
+        }),
       ),
     );
   }
-
-  getPage() {}
 }

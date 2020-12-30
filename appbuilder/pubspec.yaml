@@ -29,6 +29,9 @@ dependencies:
   cloud_firestore:
   cloud_functions:
   shared_preferences:
+  cached_network_image:
+  carousel_slider:
+  fluttertoast:
 
 
 

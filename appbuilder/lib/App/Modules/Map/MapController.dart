@@ -1,4 +1,5 @@
 import 'package:appbuilder/App/Modules/Map/MapView.dart';
+import 'package:flutter/material.dart';
 
 class MapController {
   MapView _view;
@@ -7,5 +8,5 @@ class MapController {
     _view = MapView(this);
   }
 
-  getView() => _view;
+  Widget getView() => _view;
 }

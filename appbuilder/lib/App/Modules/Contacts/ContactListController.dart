@@ -1,4 +1,5 @@
 import 'ContactListView.dart';
+import 'package:flutter/material.dart';
 
 class ContactListController {
 
@@ -8,5 +9,5 @@ class ContactListController {
     _view = ContactListView(this);
   }
 
-  getView() => _view;
+  Widget getView() => _view;
 }

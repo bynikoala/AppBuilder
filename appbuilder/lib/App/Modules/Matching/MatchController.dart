@@ -1,18 +1,20 @@
 import 'package:appbuilder/App/Settings/GlobalSettings.dart';
 
-import 'MatchViewSlide.dart';
+import 'package:flutter/material.dart';
+
+import 'MatchView.dart';
 import 'Model/Match.dart';
 
 class MatchController {
-  MatchViewSlide _view;
+  MatchView _view;
   Stream<Match> stream;
 
   MatchController() {
     initStream();
-    _view = MatchViewSlide(this);
+    _view = MatchView(this);
   }
 
-  getView() => _view;
+  Widget getView() => _view;
 
   initStream() async {
     stream = GlobalSettings.getStore().doc('users').collection('users').doc(GlobalSettings.getUser().uid).snapshots().map(

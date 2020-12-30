@@ -1,21 +1,26 @@
+import 'package:appbuilder/App/Design/AppColors.dart';
+import 'package:appbuilder/App/Design/AppDimensions.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../Config.dart';
 
 class GlobalSettings {
   static SharedPreferences _prefs;
   static User _user;
   static FirebaseAuth _auth;
   static CollectionReference _store;
-  static Map<String, List<String>> _config;
+  static Config _config;
   static AppDimensions ad;
+  static AppColors ac;
 
-  static Future<bool> init(Map<String, List<String>> config) async {
+  static Future<bool> init(Config config) async {
     try {
       _config = config;
       await Firebase.initializeApp(); // Sets a default Firebase-Project
-      _store = FirebaseFirestore.instance.collection(_config['slug'][0]); // Initialize the database
+      _store = FirebaseFirestore.instance.collection(_config.bucket); // Initialize the database
       _prefs = await SharedPreferences.getInstance(); // Loads the local Device-Settings for the app
       _auth = FirebaseAuth.instance; // Inititalizes the Firebase-Authentication
 
@@ -26,15 +31,20 @@ class GlobalSettings {
     }
   }
 
-  static Map<String, List<String>> getConfig() => _config;
+  static setDesign(_ad, _ac) {
+    ad = _ad;
+    ac = _ac;
+  }
+
+  static Config getConfig() => _config;
   static FirebaseAuth getAuth() => _auth;
   static CollectionReference getStore() => _store;
 
   static User getUser() => _user;
 
   static login(User user) {
-    _user = user;
     _prefs.setBool('loggedIn', true);
+    _user = user;
   }
 
   static logout() {

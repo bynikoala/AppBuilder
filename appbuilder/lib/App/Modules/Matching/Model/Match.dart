@@ -6,6 +6,7 @@ class Match with ChangeNotifier {
   final String gender;
   final String photoUrl;
   final String bio;
+  final int accountType;
   final int age;
   final int points;
   Match(
@@ -14,6 +15,7 @@ class Match with ChangeNotifier {
     this.gender,
     this.photoUrl,
     this.bio,
+    this.accountType,
     this.age,
     this.points,
   );
@@ -23,6 +25,7 @@ class Match with ChangeNotifier {
         gender = doc['gender'],
         photoUrl = doc['photoUrl'],
         bio = doc['bio'],
+        accountType = doc['accountType'],
         age = doc['age'],
         points = doc['points'];
 
