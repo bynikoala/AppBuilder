@@ -53,6 +53,9 @@ class GlobalSettings {
     _prefs.setBool('loggedIn', true);
     _user = user;
   }
+  static loginSilent() {
+    _user = _auth.currentUser;
+  }
 
   static logout() {
     _prefs.setBool('loggedIn', false);
