@@ -1,4 +1,4 @@
-import 'package:appbuilder/AppConfig.dart';
+import 'package:appbuilder/Config.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -10,15 +10,10 @@ import 'Modules/News/NewsController.dart';
 import 'Settings/GlobalSettings.dart';
 
 class AppController {
-  AppConfig _config;
+  Config _config;
   AppView _av;
 
-  Map<String, Widget> modules = {
-    'Map': MapController().getView(),
-    'Matching': MatchController().getView(),
-    'ContactList': ContactListController().getView(),
-    'News': NewsController().getView(),
-  };
+  Map<String, Widget> modules;
 
 
   Future<bool> loggedIn;
@@ -26,6 +21,12 @@ class AppController {
 
   AppController(this._config) {
     loggedIn = GlobalSettings.init(_config); // initialize the App-Settings
+    modules = {
+      'Map': MapController().getView(),
+      'Matching': MatchController().getView(),
+      'ContactList': ContactListController().getView(),
+      'News': NewsController().getView(),
+    };
     _av = AppView(this);
   }
 

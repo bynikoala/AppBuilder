@@ -118,6 +118,7 @@ class _MatchViewState extends State<MatchView> {
   }
 
   Widget getCardForMatch(Match match) {
+    print(match);
     return Card(
       color: ac.cardBck,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(ad.midRadius))),

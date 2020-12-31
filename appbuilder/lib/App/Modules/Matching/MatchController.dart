@@ -18,8 +18,12 @@ class MatchController {
 
   initStream() async {
     stream = GlobalSettings.getStore().doc('users').collection('users').doc(GlobalSettings.getUser().uid).collection('matches').snapshots().map(
-          (query) => query.docs.map((doc) => Match.fromStream(doc.id, doc.data())),
+          (query) => handleQuery(query),
         );
+  }
+
+  handleQuery(query) {
+    return query.docs.map((doc) => Match.fromStream(doc.id, doc.data()));
   }
 
   void acceptMatch() {}

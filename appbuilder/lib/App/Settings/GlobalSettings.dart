@@ -5,18 +5,18 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../AppConfig.dart';
+import '../../Config.dart';
 
 class GlobalSettings {
   static SharedPreferences _prefs;
   static User _user;
   static FirebaseAuth _auth;
   static CollectionReference _store;
-  static AppConfig _config;
+  static Config _config;
   static AppDimensions ad;
   static AppColors ac;
 
-  static Future<bool> init(AppConfig config) async {
+  static Future<bool> init(Config config) async {
     try {
       _config = config;
       await Firebase.initializeApp(); // Sets a default Firebase-Project
@@ -36,7 +36,7 @@ class GlobalSettings {
     ac = _ac;
   }
 
-  static AppConfig getConfig() => _config;
+  static Config getConfig() => _config;
   static FirebaseAuth getAuth() => _auth;
   static CollectionReference getStore() => _store;
 

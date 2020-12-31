@@ -1,11 +1,11 @@
 import 'package:appbuilder/App/AppController.dart';
 import 'package:flutter/material.dart';
-import 'AppConfig.dart';
+import 'Config.dart';
 
-void main(AppConfig config) {
-  AppConfig config = AppConfig(
+void main() {
+  Config config = Config(
     name: 'AppBuilder', // AppName
-    bucket: 'AppBuilder-WS2020-21',
+    bucket: 'AppBuilder-WS2020-21', // Bucket-Name for distinction in Database
     theme: 'light', // Changeable Theme
     auth: ['Google'], // Authetication Methods
     modules: ['Map', 'Matching', 'ContactList', 'News'], // Modules for the app
@@ -17,7 +17,7 @@ void main(AppConfig config) {
 }
 
 class AppBuilder extends StatelessWidget {
-  final AppConfig config;
+  final Config config;
 
   AppBuilder(this.config);
 
