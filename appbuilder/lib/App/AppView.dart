@@ -1,6 +1,5 @@
 import 'package:appbuilder/App/Design/AppColors.dart';
 import 'package:appbuilder/App/Design/AppDimensions.dart';
-import 'package:appbuilder/App/Modules/Matching/MatchController.dart';
 import 'package:flutter/material.dart';
 
 import 'AppController.dart';
@@ -57,6 +56,7 @@ class _AppViewState extends State<AppView> {
         if (!as.hasData) return Center(child: CircularProgressIndicator());
 
         if (as.data) {
+          widget._controller.loginSilently();
           return getAppFrame();
         } else {
           return getLoginMask(LoginHandler(GlobalSettings.getAuth()));
