@@ -19,13 +19,14 @@ class MapController {
 
   MapController() {
     initStream();
-    initPosition();
     _view = MapView(this);
   }
 
   Widget getView() => _view;
 
-  LatLng getUserLocation() => _userLocation;
+  LatLng getUserLocation() {
+    return _userLocation;
+}
 
   initStream() {
     stream = GlobalSettings.getStore().doc('map').collection('points').snapshots().map(
@@ -56,6 +57,7 @@ class MapController {
   }
 
   Future<void> toggleFollowmode() async {
+    initPosition();
     followButton = !followButton;
 
     LocationData _locationData = await location.getLocation();

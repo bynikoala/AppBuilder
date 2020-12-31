@@ -23,13 +23,7 @@ class GlobalSettings {
       _store = FirebaseFirestore.instance.collection(_config.bucket); // Initialize the database
       _prefs = await SharedPreferences.getInstance(); // Loads the local Device-Settings for the app
       _auth = FirebaseAuth.instance; // Inititalizes the Firebase-Authentication
-
-      if(loggedIn()) {
-
-        return true;
-      }
-
-      return false;
+      return loggedIn();
     } catch (e) {
       print(e);
       return false;

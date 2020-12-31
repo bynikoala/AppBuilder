@@ -34,7 +34,7 @@ class AppController {
   Widget getFrame() => _av;
 
   login(User user) {
-    loggedIn = true as Future<bool>;
+    loggedIn = Future<bool>.value(true);
     GlobalSettings.login(user);
   }
 

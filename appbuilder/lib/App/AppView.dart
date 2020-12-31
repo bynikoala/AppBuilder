@@ -67,14 +67,14 @@ class _AppViewState extends State<AppView> {
 
   Widget getLoginMask(LoginHandler loginForm) {
     return Scaffold(
-      backgroundColor: Colors.purple,
+      backgroundColor: ac.primary,
       body: Container(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: auth == null
               ? [
                   Center(
-                    child: Text('Lets go'),
+                    child: Text('Not Authentication specified'),
                   )
                 ]
               : [
