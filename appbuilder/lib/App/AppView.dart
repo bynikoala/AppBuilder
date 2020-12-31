@@ -56,7 +56,7 @@ class _AppViewState extends State<AppView> {
         if (!as.hasData) return Center(child: CircularProgressIndicator());
 
         if (as.data) {
-          widget._controller.loginSilently();
+          widget._controller.loginSilent();
           return getAppFrame();
         } else {
           return getLoginMask(LoginHandler(GlobalSettings.getAuth()));

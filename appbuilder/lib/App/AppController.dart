@@ -16,32 +16,31 @@ class AppController {
 
   Map<String, Widget> modules;
 
-
   Future<bool> loggedIn;
 
-
   AppController(this._config) {
-    loggedIn = GlobalSettings.init(_config); // initialize the App-Settings
-    modules = {
-      'Map': MapController().getView(),
-      'Matching': MatchController().getView(),
-      'ContactList': ContactListController().getView(),
-      'News': NewsController().getView(),
-    };
+    loggedIn = GlobalSettings.init(_config).whenComplete(() => {
+          modules = {
+            'Map': MapController().getView(),
+            'Matching': MatchController().getView(),
+            'ContactList': ContactListController().getView(),
+            'News': NewsController().getView(),
+          }
+        }); // initialize the App-Settings
+
     _av = AppView(this);
   }
 
   Widget getFrame() => _av;
 
   login(User user) {
+    loggedIn = true as Future<bool>;
     GlobalSettings.login(user);
   }
 
   loginSilent() {
-    LoginHandler(GlobalSettings.getAuth()).directLoginGoogle((user) => GlobalSettings.login(user));
+    GlobalSettings.loginSilent();
   }
 
-  getPages() => (GlobalSettings.getConfig().modules
-      .map((item) => modules[item])
-      .toList());
+  getPages() => (GlobalSettings.getConfig().modules.map((item) => modules[item]).toList());
 }
