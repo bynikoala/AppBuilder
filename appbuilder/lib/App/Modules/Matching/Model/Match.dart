@@ -1,14 +1,15 @@
 import 'package:flutter/cupertino.dart';
 
 class Match with ChangeNotifier {
-  final String id;
-  final String name;
-  final String gender;
-  final String photoUrl;
-  final String bio;
-  final int accountType;
-  final int age;
-  final int points;
+  String id;
+  String name;
+  String gender;
+  String photoUrl;
+  String bio;
+  int accountType;
+  int age;
+  int points;
+
   Match(
     this.id,
     this.name,
@@ -20,14 +21,15 @@ class Match with ChangeNotifier {
     this.points,
   );
 
-  Match.fromStream(this.id, Map<String, dynamic> doc)
-      : name = doc['name'],
-        gender = doc['gender'],
-        photoUrl = doc['photoUrl'],
-        bio = doc['bio'],
-        accountType = doc['accountType'],
-        age = doc['age'],
-        points = doc['points'];
+  Match.fromStream(this.id, Map<String, dynamic> doc) {
+    name = doc['name'];
+    gender = doc['gender'];
+    photoUrl = doc['photoUrl'];
+    bio = doc['bio'];
+    accountType = doc['accountType'];
+    age = doc['age'];
+    points = doc['points'];
+  }
 
   String getStandardAvatar() {
     switch (gender) {
