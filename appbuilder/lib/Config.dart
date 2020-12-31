@@ -1,12 +1,12 @@
 class Config {
-  final String name;
-  final String bucket;
-  final String theme;
-  final List<String> auth;
-  final List<String> modules;
-  final List<String> language;
-  final String color;
-  final String logo;
+  String name;
+  String bucket;
+  String theme;
+  List<String> auth;
+  List<String> modules;
+  List<String> language;
+  String color;
+  String logo;
 
   Config(
     this.name,
@@ -19,13 +19,16 @@ class Config {
     this.logo,
   );
 
-  Config.fromJson(Map<String, dynamic> config)
-      : name = config['name'],
-        bucket = config['bucket'],
-        theme = config['theme'],
-        auth = config['auth'],
-        modules = config['modules'],
-        language = config['language'],
-        color = config['color'],
-        logo = config['logo'];
+  Config.fromJson(Map<String, dynamic> config) {
+    print('beebop');
+    this.name = config['name'];
+    this.bucket = config['bucket'];
+    this.theme = config['theme'];
+    this.auth = config['auth'];
+    this.modules = config['modules'];
+    this.language = config['language'];
+    this.color = config['color'];
+    this.logo = config['logo'];
+  }
+
 }

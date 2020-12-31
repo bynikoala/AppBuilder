@@ -6,9 +6,6 @@ import 'package:flutter/material.dart';
 import 'AppController.dart';
 import 'CustomWidgets/CustomError.dart';
 import 'CustomWidgets/LoginHandler.dart';
-import 'Modules/Contacts/ContactListController.dart';
-import 'Modules/Map/MapController.dart';
-import 'Modules/News/NewsController.dart';
 import 'Settings/GlobalSettings.dart';
 
 class AppView extends StatefulWidget {

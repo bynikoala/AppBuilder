@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.niku.appbuilder.appbuilder">
+    package="com.example.appbuilder">
     <!-- io.flutter.app.FlutterApplication is an android.app.Application that
          calls FlutterMain.startInitialization(this); in its onCreate method.
          In most cases you can leave this as-is, but you if you want to provide
@@ -45,5 +45,6 @@
             android:value="2" />
         <meta-data android:name="com.google.android.geo.API_KEY"
                    android:value="AIzaSyBegYxZ3UFDDFjFWtOqPZNI1MCjAZAm83Q"/>
+
     </application>
 </manifest>

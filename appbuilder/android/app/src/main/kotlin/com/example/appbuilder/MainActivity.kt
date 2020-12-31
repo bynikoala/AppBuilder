@@ -1,4 +1,4 @@
-package com.niku.appbuilder.appbuilder
+package com.example.appbuilder
 
 import io.flutter.embedding.android.FlutterActivity
 

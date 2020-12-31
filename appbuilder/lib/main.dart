@@ -9,7 +9,7 @@ void main(Config config) {
     'theme': 'light', // Changeable Theme
     'auth': ['Google'], // Authetication Methods
     'modules': ['Map', 'Matching', 'ContactList', 'News'], // Modules for the app
-    'lang': ['de-de', 'en-us'], // Standard language + changeables
+    'language': ['de-de', 'en-us'], // Standard language + changeables
     'color': 'orange', // Color Scheme for each module or standard
     'logo': 'logo.png',
   });
