@@ -6,7 +6,7 @@ import 'package:appbuilder/App/Settings/GlobalSettings.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'Model/Match.dart';
+import '../Contacts/Model/Contact.dart';
 import 'MatchController.dart';
 import 'MeetPersonPopup.dart';
 
@@ -31,7 +31,7 @@ class _MatchViewState extends State<MatchView> {
       body: Container(
         child: StreamBuilder(
           stream: widget._controller.stream,
-          builder: (context, AsyncSnapshot<List<Match>> matches) {
+          builder: (context, AsyncSnapshot<List<Contact>> matches) {
             // Handle Connection Error
             if (matches.hasError) {
               print('Error while loading Matches: ${matches.error} # ${matches.connectionState}');
@@ -50,7 +50,7 @@ class _MatchViewState extends State<MatchView> {
                 return CustomWidgets().getViewLoader(ac, 'Matches werden geladen...', ad);
 
               case ConnectionState.active:
-                if (matches.hasData) {
+                if (matches.hasData && matches.data.isNotEmpty) {
                   return getContent(matches.data);
                 } else {
                   return CustomError(() {
@@ -59,9 +59,9 @@ class _MatchViewState extends State<MatchView> {
                 }
                 break;
               case ConnectionState.done:
-                return ListView(
-                  children: matches.data.map((match) => Text(match.name)).toList(),
-                );
+                return CustomError(() {
+                  setState(() {});
+                }, error: "Noch keine Matches");
             }
             return null;
           },
@@ -70,7 +70,7 @@ class _MatchViewState extends State<MatchView> {
     );
   }
 
-  Center getContent(List<Match> matches) {
+  Center getContent(List<Contact> matches) {
     return Center(
       child: Column(
         children: <Widget>[
@@ -124,7 +124,7 @@ class _MatchViewState extends State<MatchView> {
     );
   }
 
-  Card getCardForMatch(Match match) {
+  Card getCardForMatch(Contact match) {
     if (match.name == null) return null;
 
     return Card(

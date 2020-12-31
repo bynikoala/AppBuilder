@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
-
-class Match with ChangeNotifier {
+class Contact {
   String id;
   String name;
   String gender;
@@ -10,18 +8,16 @@ class Match with ChangeNotifier {
   int age;
   int points;
 
-  Match(
-    this.id,
-    this.name,
-    this.gender,
-    this.photoUrl,
-    this.bio,
-    this.accountType,
-    this.age,
-    this.points,
-  );
+  Contact(this.id,
+      this.name,
+      this.gender,
+      this.photoUrl,
+      this.bio,
+      this.accountType,
+      this.age,
+      this.points,);
 
-  Match.fromStream(this.id, Map<String, dynamic> doc) {
+  Contact.fromStream(this.id, Map<String, dynamic> doc) {
     name = doc['name'];
     gender = doc['gender'];
     photoUrl = doc['photoUrl'];
@@ -42,7 +38,8 @@ class Match with ChangeNotifier {
     }
   }
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() =>
+      {
         'id': id,
         'name': name,
         'gender': gender,

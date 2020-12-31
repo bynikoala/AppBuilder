@@ -4,11 +4,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'MatchView.dart';
-import 'Model/Match.dart';
+import '../Contacts/Model/Contact.dart';
 
 class MatchController {
   MatchView _view;
-  Stream<List<Match>> stream;
+  Stream<List<Contact>> stream;
 
   MatchController() {
     initStream();
@@ -19,7 +19,7 @@ class MatchController {
 
   initStream() async {
     stream = GlobalSettings.getStore().doc('users').collection('users').doc(GlobalSettings.getUser().uid).collection('matches').snapshots().map(
-          (query) => query.docs.map((doc) => Match.fromStream(doc.id, doc.data())).toList()
+          (query) => query.docs.map((doc) => Contact.fromStream(doc.id, doc.data())).toList()
         );
   }
 

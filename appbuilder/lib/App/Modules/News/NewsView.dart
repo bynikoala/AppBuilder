@@ -47,7 +47,7 @@ class _NewsViewState extends State<NewsView> {
                   return CustomWidgets().getViewLoader(ac, 'Neuigkeiten werden geladen...', ad);
 
                 case ConnectionState.active:
-                  if (news.hasData) {
+                  if (news.hasData && news.data.isNotEmpty) {
                     return getContent(news.data);
                   } else {
                     return CustomError(() {
@@ -56,9 +56,9 @@ class _NewsViewState extends State<NewsView> {
                   }
                   break;
                 case ConnectionState.done:
-                  return ListView(
-                    children: news.data.map((news) => Text(news.title)).toList(),
-                  );
+                  return CustomError(() {
+                    setState(() {});
+                  }, error: "Noch keine Neuigkeiten");
               }
               return null;
             },
@@ -66,7 +66,7 @@ class _NewsViewState extends State<NewsView> {
         ));
   }
 
-  getContent(List<News> newsList) {
+  Center getContent(List<News> newsList) {
     return Center(
       child: ListView(
         padding: EdgeInsets.all(ad.hSmallSpace),
@@ -77,9 +77,16 @@ class _NewsViewState extends State<NewsView> {
                   padding: EdgeInsets.all(ad.hTinySpace),
                   child: Column(
                     children: [
-                      Text(news.title, textScaleFactor: 1.2, textAlign: TextAlign.center,),
+                      Text(
+                        news.title,
+                        textScaleFactor: 1.2,
+                        textAlign: TextAlign.center,
+                      ),
                       ad.vSmall(),
-                      Text(news.text, textAlign: TextAlign.center,),
+                      Text(
+                        news.text,
+                        textAlign: TextAlign.center,
+                      ),
                     ],
                   ),
                 ),

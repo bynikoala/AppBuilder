@@ -3,17 +3,17 @@ import 'package:appbuilder/App/Design/AppDimensions.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'Model/Match.dart';
+import '../Contacts/Model/Contact.dart';
 
 class MeetPersonPopup {
   MeetPersonPopup();
 
   BuildContext context;
-  Match match;
+  Contact match;
 
   double titleSize = 1.5;
 
-  popupBuilder(BuildContext context, Match match, AppColors ac, AppDimensions ad) {
+  popupBuilder(BuildContext context, Contact match, AppColors ac, AppDimensions ad) {
     this.context = context;
     String id = match.id;
     String name = match.name;
