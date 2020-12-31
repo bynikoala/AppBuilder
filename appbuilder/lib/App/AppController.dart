@@ -1,4 +1,4 @@
-import 'package:appbuilder/Config.dart';
+import 'package:appbuilder/AppConfig.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -10,8 +10,7 @@ import 'Modules/News/NewsController.dart';
 import 'Settings/GlobalSettings.dart';
 
 class AppController {
-  BuildContext context;
-  Config _config;
+  AppConfig _config;
   AppView _av;
 
   Map<String, Widget> modules = {
@@ -25,7 +24,7 @@ class AppController {
   Future<bool> loggedIn;
 
 
-  AppController(this.context, this._config) {
+  AppController(this._config) {
     loggedIn = GlobalSettings.init(_config); // initialize the App-Settings
     _av = AppView(this);
   }

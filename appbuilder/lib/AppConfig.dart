@@ -1,4 +1,4 @@
-class Config {
+class AppConfig {
   String name;
   String bucket;
   String theme;
@@ -8,7 +8,7 @@ class Config {
   String color;
   String logo;
 
-  Config(
+  AppConfig({
     this.name,
     this.bucket,
     this.theme,
@@ -17,10 +17,9 @@ class Config {
     this.language,
     this.color,
     this.logo,
-  );
+  });
 
-  Config.fromJson(Map<String, dynamic> config) {
-    print('beebop');
+  AppConfig.fromJson(Map<String, dynamic> config) {
     this.name = config['name'];
     this.bucket = config['bucket'];
     this.theme = config['theme'];

@@ -1,23 +1,23 @@
 import 'package:appbuilder/App/AppController.dart';
 import 'package:flutter/material.dart';
-import 'Config.dart';
+import 'AppConfig.dart';
 
-void main(Config config) {
-  Config config = Config.fromJson({
-    'name': 'AppBuilder', // AppName
-    'bucket': 'AppBuilder-WS2020-21',
-    'theme': 'light', // Changeable Theme
-    'auth': ['Google'], // Authetication Methods
-    'modules': ['Map', 'Matching', 'ContactList', 'News'], // Modules for the app
-    'language': ['de-de', 'en-us'], // Standard language + changeables
-    'color': 'orange', // Color Scheme for each module or standard
-    'logo': 'logo.png',
-  });
+void main(AppConfig config) {
+  AppConfig config = AppConfig(
+    name: 'AppBuilder', // AppName
+    bucket: 'AppBuilder-WS2020-21',
+    theme: 'light', // Changeable Theme
+    auth: ['Google'], // Authetication Methods
+    modules: ['Map', 'Matching', 'ContactList', 'News'], // Modules for the app
+    language: ['de-de', 'en-us'], // Standard language + changeables
+    color: 'orange', // Color Scheme for each module or standard
+    logo: 'logo.png'
+  );
   runApp(AppBuilder(config));
 }
 
 class AppBuilder extends StatelessWidget {
-  final Config config;
+  final AppConfig config;
 
   AppBuilder(this.config);
 
@@ -28,7 +28,7 @@ class AppBuilder extends StatelessWidget {
       theme: ThemeData(
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: AppController(context, config).getFrame(),
+      home: AppController(config).getFrame(),
     );
   }
 }
