@@ -1,3 +1,4 @@
+import 'package:appbuilder/App/CustomWidgets/LoginHandler.dart';
 import 'package:appbuilder/Config.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -34,6 +35,10 @@ class AppController {
 
   login(User user) {
     GlobalSettings.login(user);
+  }
+
+  loginSilent() {
+    LoginHandler(GlobalSettings.getAuth()).directLoginGoogle((user) => GlobalSettings.login(user));
   }
 
   getPages() => (GlobalSettings.getConfig().modules
