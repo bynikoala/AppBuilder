@@ -16,8 +16,8 @@ class NewsController {
   Widget getView() => _view;
 
   initStream() async {
-    stream = GlobalSettings.getStore().doc('news').collection('news').snapshots().map(
-          (query) => query.docs.map((doc) => News.fromStream(doc.data())),
+    stream = GlobalSettings.getStore().doc('news').collection('messages').snapshots().map(
+          (query) => query.docs.map((doc) => News.fromStream(doc.data())).toList(),
     );
   }
 }

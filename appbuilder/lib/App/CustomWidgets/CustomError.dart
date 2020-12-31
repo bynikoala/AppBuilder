@@ -5,8 +5,9 @@ class CustomError extends StatefulWidget {
   _CustomErrorState createState() => _CustomErrorState();
 
   final Function _onClick;
+  final String error;
 
-  CustomError(this._onClick);
+  CustomError(this._onClick, {this.error : "Ein Fehler ist aufgetreten. "});
 
 
 }
@@ -16,7 +17,7 @@ class _CustomErrorState extends State<CustomError> {
   Widget build(BuildContext context) {
     return Center(
       child: InkWell(
-        child: Text("Ein Fehler ist aufgetreten. Bitte tippen Sie hier um es erneut zu versuchen.", textAlign: TextAlign.center),
+        child: Text("${widget.error} Bitte tippen Sie hier um es erneut zu versuchen.", textAlign: TextAlign.center),
         onTap: widget._onClick,
       ),
     );

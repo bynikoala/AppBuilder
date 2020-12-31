@@ -1,3 +1,4 @@
+import 'package:appbuilder/App/CustomWidgets/CustomError.dart';
 import 'package:appbuilder/App/CustomWidgets/CustomWidgets.dart';
 import 'package:appbuilder/App/Design/AppColors.dart';
 import 'package:appbuilder/App/Design/AppDimensions.dart';
@@ -25,113 +26,107 @@ class _MatchViewState extends State<MatchView> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: StreamBuilder(
-        stream: widget._controller.stream,
-        builder: (context, AsyncSnapshot<List<Match>> matches) {
-          if (matches.hasError) {
-            print('Error while loading Matches: ${matches.error} # ${matches.connectionState}');
-            return InkWell(
-              onTap: () => setState(() {}),
-              child: Padding(
-                padding: EdgeInsets.all(ad.vBigSpace),
-                child: Center(
-                  child: Text("Fehler. Tippen um zu wiederholen.", textAlign: TextAlign.center),
-                ),
-              ),
-            );
-          }
+    return Scaffold(
+      floatingActionButton: null,
+      body: Container(
+        child: StreamBuilder(
+          stream: widget._controller.stream,
+          builder: (context, AsyncSnapshot<List<Match>> matches) {
+            // Handle Connection Error
+            if (matches.hasError) {
+              print('Error while loading Matches: ${matches.error} # ${matches.connectionState}');
+              return CustomError(() {
+                setState(() {});
+              }, error: 'Verbindungsfehler');
+            }
 
-          switch (matches.connectionState) {
-            case ConnectionState.none:
-              return InkWell(
-                onTap: () => setState(() {}),
-                child: Padding(
-                  padding: EdgeInsets.all(ad.vBigSpace),
-                  child: Center(
-                    child: Text('Verbindungsfehler. Bitte versuchen Sie es erneut.'),
-                  ),
-                ),
-              );
-            case ConnectionState.waiting:
-              return CustomWidgets().getViewLoader(ac, 'Matches werden geladen...', ad);
-            case ConnectionState.active:
-              if (matches.hasData)
-                return Center(
-                  child: Column(
-                    children: <Widget>[
-                      ad.vMid(),
-                      Text(
-                        'Treffe jetzt interessante Leute!',
-                        style: TextStyle(fontSize: 20),
-                        textAlign: TextAlign.center,
-                      ),
-                      Container(
-                        margin: EdgeInsets.all(ad.vBigSpace),
-                        child: Text(
-                          'Tippe einfach auf eine Person, schau dir Ihr Profil an und entscheide ob du Sie kennenlernen möchtest.',
-                          style: TextStyle(fontSize: 16),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                      // Dotted indicator
-                      Center(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: List<Widget>.generate(
-                            matches.data.length,
-                                (index) => Container(
-                              width: ad.hSmallSpace,
-                              height: ad.hSmallSpace,
-                              margin: EdgeInsets.symmetric(vertical: ad.vSmall().height, horizontal: ad.hTiny().width),
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: _currentSlide == index ? ac.dotAc : ac.dotIn,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      ad.vSmall(),
-                      CarouselSlider(
-                        options: CarouselOptions(
-                          height: ad.cardHeight,
-                          enlargeCenterPage: true,
-                          onPageChanged: (index, reason) {
-                            setState(() {
-                              _currentSlide = index;
-                            });
-                          },
-                        ),
-                        items: matches.data.map((match) => getCardForMatch(match)).toList(),
-                      ),
-                    ],
-                  ),
+            switch (matches.connectionState) {
+              case ConnectionState.none:
+                return CustomError(() {
+                  setState(() {});
+                }, error: 'Verbindungsfehler');
+
+              case ConnectionState.waiting:
+                return CustomWidgets().getViewLoader(ac, 'Matches werden geladen...', ad);
+
+              case ConnectionState.active:
+                if (matches.hasData) {
+                  return getContent(matches.data);
+                } else {
+                  return CustomError(() {
+                    setState(() {});
+                  }, error: "Noch keine Matches");
+                }
+                break;
+              case ConnectionState.done:
+                return ListView(
+                  children: matches.data.map((match) => Text(match.name)).toList(),
                 );
-              if (!matches.hasData)
-                return InkWell(
-                  onTap: () => setState(() {}),
-                  child: Padding(
-                    padding: EdgeInsets.all(ad.vBigSpace),
-                    child: Center(
-                      child: Text("Noch keine Matches. Tippen um zu wiederholen.", textAlign: TextAlign.center),
-                    ),
-                  ),
-                );
-              break;
-            case ConnectionState.done:
-              return ListView(
-                children: matches.data.map((point) => Text(point.name)).toList(),
-              );
-          }
-          return null;
-        },
+            }
+            return null;
+          },
+        ),
       ),
     );
   }
 
-  Widget getCardForMatch(Match match) {
-    print(match);
+  Center getContent(List<Match> matches) {
+    return Center(
+      child: Column(
+        children: <Widget>[
+          ad.vMid(),
+          Text(
+            'Treffe jetzt interessante Leute!',
+            style: TextStyle(fontSize: 20),
+            textAlign: TextAlign.center,
+          ),
+          Container(
+            margin: EdgeInsets.all(ad.vMidSpace),
+            child: Text(
+              'Tippe einfach auf eine Person, schau dir Ihr Profil an und entscheide ob du Sie kennenlernen möchtest.',
+              style: TextStyle(fontSize: 16),
+              textAlign: TextAlign.center,
+            ),
+          ),
+          // Dotted indicator
+          Center(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: List<Widget>.generate(
+                matches.length,
+                    (index) =>
+                    Container(
+                      width: ad.hTinySpace,
+                      height: ad.hTinySpace,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: _currentSlide == index ? ac.dotAc : ac.dotIn,
+                      ),
+                    ),
+              ),
+            ),
+          ),
+          ad.vSmall(),
+          CarouselSlider(
+            options: CarouselOptions(
+              height: ad.cardHeight,
+              enlargeCenterPage: true,
+              onPageChanged: (index, reason) {
+                setState(() {
+                  _currentSlide = index;
+                });
+              },
+            ),
+            items: matches.map((match) => getCardForMatch(match)).toList(),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Card getCardForMatch(Match match) {
+    if (match.name == null) return null;
+
     return Card(
       color: ac.cardBck,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(ad.midRadius))),
@@ -157,23 +152,24 @@ class _MatchViewState extends State<MatchView> {
                     // TODO: Accounttyp in matchliste visualisieren - ['accountType']
                     match.photoUrl != ""
                         ? CachedNetworkImage(
-                            imageUrl: match.photoUrl,
+                      imageUrl: match.photoUrl,
+                      width: ad.pictureMid,
+                      height: ad.pictureMid,
+                      fit: BoxFit.contain,
+                      placeholder: (context, url) =>
+                          Container(
                             width: ad.pictureMid,
                             height: ad.pictureMid,
-                            fit: BoxFit.contain,
-                            placeholder: (context, url) => Container(
-                              width: ad.pictureMid,
-                              height: ad.pictureMid,
-                              padding: EdgeInsets.all(ad.vMidSpace),
-                              child: CircularProgressIndicator(
-                                strokeWidth: 2.0,
-                                valueColor: AlwaysStoppedAnimation<Color>(ac.circPrIn),
-                              ),
+                            padding: EdgeInsets.all(ad.vMidSpace),
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2.0,
+                              valueColor: AlwaysStoppedAnimation<Color>(ac.circPrIn),
                             ),
-                          )
+                          ),
+                    )
                         : Container(
-                            // TODO: standardimage
-                            ),
+                      // TODO: standardimage
+                    ),
                     Positioned(
                       top: 0,
                       right: 0,
@@ -229,7 +225,7 @@ class _MatchViewState extends State<MatchView> {
     );
   }
 
-  Widget getCardLine(IconData icon, String content) {
+  Row getCardLine(IconData icon, String content) {
     return Row(
       children: <Widget>[
         Icon(icon, color: ac.iconPrim, size: 16),

@@ -1,3 +1,4 @@
+import 'package:appbuilder/App/CustomWidgets/CustomError.dart';
 import 'package:appbuilder/App/CustomWidgets/CustomWidgets.dart';
 import 'package:appbuilder/App/Design/AppColors.dart';
 import 'package:appbuilder/App/Design/AppDimensions.dart';
@@ -39,37 +40,28 @@ class _MapViewState extends State<MapView> {
             stream: widget._controller.stream,
             builder: (context, AsyncSnapshot<List<MapPoint>> mapPoints) {
 
+              // Handle Connection Error
               if (mapPoints.hasError) {
                 print('Error while loading Map: ${mapPoints.error} ${mapPoints.connectionState}');
                 print(mapPoints.error.toString());
-                return InkWell(
-                  onTap: () => setState(() {}),
-                  child: Padding(
-                    padding: EdgeInsets.all(ad.vBigSpace),
-                    child: Center(
-                      child: Text("Fehler. Tippen um zu wiederholen.", textAlign: TextAlign.center),
-                    ),
-                  ),
-                );
+                return CustomError(() {
+                  setState(() {});
+                }, error: 'Verbindungsfehler');
               }
 
               switch (mapPoints.connectionState) {
                 case ConnectionState.none:
-                  return Center(
-                    child: Text('Verbindungsfehler. Bitte versuchen Sie es erneut.'),
-                  );
+                  return CustomError(() {
+                    setState(() {});
+                  }, error: 'Verbindungsfehler');
+
                 case ConnectionState.waiting:
                   return CustomWidgets().getViewLoader(ac, 'Map wird geladen...', ad);
+
                 case ConnectionState.active:
-                  return GoogleMap(
-                    onMapCreated: (GoogleMapController controller) {
-                      widget._controller.gmc = controller;
-                    },
-                    markers: getMarkers(mapPoints.data),
-                    zoomControlsEnabled: false,
-                    initialCameraPosition: CameraPosition(target: widget._controller.getUserLocation(), zoom: 5.7),
-                  );
+                  return getContent(mapPoints);
                   break;
+
                 case ConnectionState.done:
                   return ListView(
                     children: mapPoints.data.map((point) => Text(point.name)).toList(),
@@ -81,7 +73,21 @@ class _MapViewState extends State<MapView> {
     );
   }
 
+  Widget getContent(mapPoints) {
+    return GoogleMap(
+      onMapCreated: (GoogleMapController controller) {
+        widget._controller.gmc = controller;
+      },
+      mapToolbarEnabled: false,
+      markers: getMarkers(mapPoints.data),
+      zoomControlsEnabled: false,
+      initialCameraPosition: CameraPosition(target: widget._controller.getUserLocation(), zoom: 5.7),
+    );
+  }
+
   Set<Marker> getMarkers(List<MapPoint> points) {
+    if(points.isEmpty) return null;
+
     Set<Marker> markers = Set<Marker>();
     points.forEach((point) {
       markers.add(
@@ -90,7 +96,7 @@ class _MapViewState extends State<MapView> {
           infoWindow: InfoWindow(
             title: point.name,
             snippet: point.snippet,
-          //  onTap: () => {},
+            //  onTap: () => {},
           ),
           markerId: MarkerId(point.id),
           position: point.position,

@@ -5,8 +5,9 @@ class News {
 
   News(this.title, this.description, this.text);
 
-  News.fromStream(Map<String, dynamic> doc)
-      : title = doc['title'],
-        description = doc['description'],
-        text = doc['text'];
+  News.fromStream(Map<String, dynamic> doc) {
+    title = doc['title'];
+    description = doc['description'];
+    text = doc['text'];
+  }
 }

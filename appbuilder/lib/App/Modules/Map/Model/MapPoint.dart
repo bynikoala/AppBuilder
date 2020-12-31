@@ -11,6 +11,7 @@ class MapPoint {
   MapPoint(this.snippet, this.description, this.name, this.type, this.id, this.position);
 
   MapPoint.fromStream(this.id, Map<String, dynamic> doc) {
+    print("beebop");
     name = doc['name'];
     type = doc['type'];
     snippet = doc['snippet'];

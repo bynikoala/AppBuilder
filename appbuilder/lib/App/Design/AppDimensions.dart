@@ -22,6 +22,7 @@ class AppDimensions {
   double height;
 
   // Horizontal Spaces
+  double hTinySpace;
   double hSmallSpace;
   double hMidSpace;
   double hBigSpace;
@@ -72,6 +73,7 @@ class AppDimensions {
 
     textNewline = width/16;
 
+    hTinySpace = width/32;
     hSmallSpace = width/16;
     hMidSpace = width/8;
     hBigSpace = width/4;
