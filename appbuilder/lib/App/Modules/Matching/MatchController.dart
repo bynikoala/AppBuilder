@@ -7,7 +7,7 @@ import 'Model/Match.dart';
 
 class MatchController {
   MatchView _view;
-  Stream<Match> stream;
+  Stream<List<Match>> stream;
 
   MatchController() {
     initStream();
@@ -17,8 +17,8 @@ class MatchController {
   Widget getView() => _view;
 
   initStream() async {
-    stream = GlobalSettings.getStore().doc('users').collection('users').doc(GlobalSettings.getUser().uid).snapshots().map(
-          (doc) => Match.fromStream(doc.id, doc.data()),
+    stream = GlobalSettings.getStore().doc('users').collection('users').doc(GlobalSettings.getUser().uid).collection('matches').snapshots().map(
+          (query) => query.docs.map((doc) => Match.fromStream(doc.id, doc.data())),
         );
   }
 

@@ -66,11 +66,11 @@ class AppDimensions {
     vButtonSpace = vBigSpace * 4;
 
     // Horizontal
-    iconTextSpace = 5;
+    iconTextSpace = width/16;
     pictureMid = width/4;
     pictureSmall = width/8;
 
-    textNewline = 8;
+    textNewline = width/16;
 
     hSmallSpace = width/16;
     hMidSpace = width/8;

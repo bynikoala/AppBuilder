@@ -6,7 +6,7 @@ import '../Settings/GlobalSettings.dart';
 import '../Design/AppColors.dart';
 import '../Design/AppDimensions.dart';
 
-class NikusLogin {
+class LoginHandler {
   AppColors appColors;
   AppDimensions appDimensions;
   int shape;
@@ -14,7 +14,7 @@ class NikusLogin {
   FirebaseAuth auth;
   GoogleSignIn _googleSignIn = GoogleSignIn();
 
-  NikusLogin(this.auth, {this.shape = 1});
+  LoginHandler(this.auth, {this.shape = 1});
 
   directLoginGoogle(onSuccess(User user)) {
     _loginWithGoogle(onSuccess);

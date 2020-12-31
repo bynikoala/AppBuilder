@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 
-class NikusError extends StatefulWidget {
+class CustomError extends StatefulWidget {
   @override
-  _NikusErrorState createState() => _NikusErrorState();
+  _CustomErrorState createState() => _CustomErrorState();
 
-  Function _onClick;
+  final Function _onClick;
 
-  NikusError(this._onClick);
+  CustomError(this._onClick);
 
 
 }
 
-class _NikusErrorState extends State<NikusError> {
+class _CustomErrorState extends State<CustomError> {
   @override
   Widget build(BuildContext context) {
     return Center(

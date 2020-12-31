@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 
 class NewsController {
   NewsView _view;
-  Stream<News> stream;
+  Stream<List<News>> stream;
 
   NewsController() {
     _view = NewsView(this);
@@ -17,7 +17,7 @@ class NewsController {
 
   initStream() async {
     stream = GlobalSettings.getStore().doc('news').collection('news').snapshots().map(
-          (doc) => News.fromStream(doc.docs),
+          (query) => query.docs.map((doc) => News.fromStream(doc.data())),
     );
   }
 }

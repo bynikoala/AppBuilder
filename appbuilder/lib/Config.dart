@@ -8,6 +8,17 @@ class Config {
   final String color;
   final String logo;
 
+  Config(
+    this.name,
+    this.bucket,
+    this.theme,
+    this.auth,
+    this.modules,
+    this.language,
+    this.color,
+    this.logo,
+  );
+
   Config.fromJson(Map<String, dynamic> config)
       : name = config['name'],
         bucket = config['bucket'],

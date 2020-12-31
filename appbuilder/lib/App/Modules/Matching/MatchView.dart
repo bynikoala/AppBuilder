@@ -1,6 +1,6 @@
+import 'package:appbuilder/App/CustomWidgets/CustomWidgets.dart';
 import 'package:appbuilder/App/Design/AppColors.dart';
 import 'package:appbuilder/App/Design/AppDimensions.dart';
-import 'package:appbuilder/App/NikusWidgets/NikusWidgets.dart';
 import 'package:appbuilder/App/Settings/GlobalSettings.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -31,7 +31,7 @@ class _MatchViewState extends State<MatchView> {
         stream: widget._controller.stream,
         builder: (context, AsyncSnapshot matchList) {
           if (matchList.connectionState == ConnectionState.waiting) {
-            return NikusWidgets().getViewLoader(ac, 'Matches werden geladen...', ad);
+            return CustomWidgets().getViewLoader(ac, 'Matches werden geladen...', ad);
           } else if (matchList.connectionState == ConnectionState.done && matchList.hasData) {
             return Center(
               child: Column(

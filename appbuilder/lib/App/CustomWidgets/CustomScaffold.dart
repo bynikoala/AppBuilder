@@ -3,7 +3,7 @@ import '../Design/AppColors.dart';
 import 'package:flutter/material.dart';
 
 
-class NikusScaffold extends StatefulWidget {
+class CustomScaffold extends StatefulWidget {
   final AppColors appColors;
   final AppBar appBar;
   final Widget child;
@@ -11,17 +11,17 @@ class NikusScaffold extends StatefulWidget {
   final BottomNavigationBar bottomNavigationBar;
   final _mono;
 
-  NikusScaffold({this.appColors, this.appBar, this.child, this.floatingActionButton, this.bottomNavigationBar})
+  CustomScaffold({this.appColors, this.appBar, this.child, this.floatingActionButton, this.bottomNavigationBar})
       : _mono = false;
 
-  NikusScaffold.mono({this.appColors, this.appBar, this.child, this.floatingActionButton, this.bottomNavigationBar})
+  CustomScaffold.mono({this.appColors, this.appBar, this.child, this.floatingActionButton, this.bottomNavigationBar})
       : _mono = true;
 
   @override
-  _NikusScaffoldState createState() => _NikusScaffoldState();
+  _CustomScaffoldState createState() => _CustomScaffoldState();
 }
 
-class _NikusScaffoldState extends State<NikusScaffold> {
+class _CustomScaffoldState extends State<CustomScaffold> {
   @override
   Widget build(BuildContext context) {
     Scaffold result = Scaffold(

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../Design/AppColors.dart';
 import '../Design/AppDimensions.dart';
 
-class NikusWidgets {
+class CustomWidgets {
   Widget getViewLoader(AppColors ac, String loadingText, AppDimensions ad) {
     return Center(
       child: Column(

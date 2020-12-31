@@ -1,11 +1,11 @@
 import 'package:appbuilder/App/Design/AppColors.dart';
 import 'package:appbuilder/App/Design/AppDimensions.dart';
 import 'package:appbuilder/App/Modules/Matching/MatchController.dart';
-import 'package:appbuilder/App/NikusWidgets/NikusError.dart';
-import 'package:appbuilder/App/NikusWidgets/NikusLogin.dart';
 import 'package:flutter/material.dart';
 
 import 'AppController.dart';
+import 'CustomWidgets/CustomError.dart';
+import 'CustomWidgets/LoginHandler.dart';
 import 'Modules/Contacts/ContactListController.dart';
 import 'Modules/Map/MapController.dart';
 import 'Modules/News/NewsController.dart';
@@ -27,11 +27,8 @@ class _AppViewState extends State<AppView> {
   List<String> auth;
   String logo;
 
-  Map<String, Widget> classFactory;
-
   List<BottomNavigationBarItem> menuItems;
   int pageIndex = 0;
-  List<Object> pages;
 
   @override
   Widget build(BuildContext context) {
@@ -42,13 +39,6 @@ class _AppViewState extends State<AppView> {
 
     auth = GlobalSettings.getConfig().auth;
 
-    classFactory = {
-      'Map': MapController().getView(),
-      'Matching': MatchController().getView(),
-      'ContactList': ContactListController().getView(),
-      'News': NewsController().getView(),
-    };
-
     menuItems = (GlobalSettings.getConfig().modules
         .map((item) => BottomNavigationBarItem(
               label: item.toString(),
@@ -56,15 +46,14 @@ class _AppViewState extends State<AppView> {
               icon: Icon(Icons.stream),
             ))
         .toList());
-    pages = (GlobalSettings.getConfig().modules
-        .map((item) => classFactory[item])
-        .toList());
+
+
 
     return FutureBuilder(
       future: widget._controller.loggedIn,
       builder: (context, as) {
         if (as.hasError)
-          return NikusError(() {
+          return CustomError(() {
             setState(() {});
           });
 
@@ -73,13 +62,13 @@ class _AppViewState extends State<AppView> {
         if (as.data) {
           return getAppFrame();
         } else {
-          return getLoginMask(NikusLogin(GlobalSettings.getAuth()));
+          return getLoginMask(LoginHandler(GlobalSettings.getAuth()));
         }
       },
     );
   }
 
-  Widget getLoginMask(NikusLogin loginForm) {
+  Widget getLoginMask(LoginHandler loginForm) {
     return Scaffold(
       backgroundColor: Colors.purple,
       body: Container(
@@ -151,7 +140,7 @@ class _AppViewState extends State<AppView> {
           )
         ],
       ),
-      body: pages[pageIndex],
+      body: widget._controller.getPages()[pageIndex],
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         backgroundColor: ac.primary,
