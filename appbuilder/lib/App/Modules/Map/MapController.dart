@@ -30,7 +30,7 @@ class MapController {
 
   initStream() {
     stream = GlobalSettings.getStore().doc('map').collection('points').snapshots().map(
-          (query) => query.docs.map((doc) => MapPoint.fromStream(doc.id, doc.data())),
+          (query) => query.docs.map((doc) => MapPoint.fromStream(doc.id, doc.data())).toList()
         );
   }
 

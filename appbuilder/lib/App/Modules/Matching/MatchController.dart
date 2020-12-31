@@ -1,4 +1,5 @@
 import 'package:appbuilder/App/Settings/GlobalSettings.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:flutter/material.dart';
 
@@ -18,12 +19,8 @@ class MatchController {
 
   initStream() async {
     stream = GlobalSettings.getStore().doc('users').collection('users').doc(GlobalSettings.getUser().uid).collection('matches').snapshots().map(
-          (query) => handleQuery(query),
+          (query) => query.docs.map((doc) => Match.fromStream(doc.id, doc.data())).toList()
         );
-  }
-
-  handleQuery(query) {
-    return query.docs.map((doc) => Match.fromStream(doc.id, doc.data()));
   }
 
   void acceptMatch() {}

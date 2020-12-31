@@ -20,7 +20,6 @@ class MatchView extends StatefulWidget {
 
 class _MatchViewState extends State<MatchView> {
   int _currentSlide;
-  int _slideCount;
   AppDimensions ad = GlobalSettings.ad;
   AppColors ac = GlobalSettings.ac;
 
@@ -29,79 +28,9 @@ class _MatchViewState extends State<MatchView> {
     return Container(
       child: StreamBuilder(
         stream: widget._controller.stream,
-        builder: (context, AsyncSnapshot matchList) {
-          if (matchList.connectionState == ConnectionState.waiting) {
-            return CustomWidgets().getViewLoader(ac, 'Matches werden geladen...', ad);
-          } else if (matchList.connectionState == ConnectionState.done && matchList.hasData) {
-            return Center(
-              child: Column(
-                children: <Widget>[
-                  ad.vMid(),
-                  Text(
-                    'Treffe jetzt interessante Leute!',
-                    style: TextStyle(fontSize: 20),
-                    textAlign: TextAlign.center,
-                  ),
-                  Container(
-                    margin: EdgeInsets.all(ad.vBigSpace),
-                    child: Text(
-                      'Tippe einfach auf eine Person, schau dir Ihr Profil an und entscheide ob du Sie kennenlernen möchtest.',
-                      style: TextStyle(fontSize: 16),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  // Dotted indicator
-                  Center(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: List<Widget>.generate(
-                        _slideCount,
-                            (index) =>
-                            Container(
-                              width: ad.hSmallSpace,
-                              height: ad.hSmallSpace,
-                              margin: EdgeInsets.symmetric(vertical: ad
-                                  .vSmall()
-                                  .height, horizontal: ad
-                                  .hTiny()
-                                  .width),
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: _currentSlide == index ? ac.dotAc : ac.dotIn,
-                              ),
-                            ),
-                      ),
-                    ),
-                  ),
-                  ad.vSmall(),
-                  CarouselSlider(
-                    options: CarouselOptions(
-                      height: ad.cardHeight,
-                      enlargeCenterPage: true,
-                      onPageChanged: (index, reason) {
-                        setState(() {
-                          _currentSlide = index;
-                        });
-                      },
-                    ),
-                    items: matchList.data,
-                  ),
-                ],
-              ),
-            );
-          } else if(!matchList.hasData) {
-            return InkWell(
-              onTap: () => setState(() {}),
-              child: Padding(
-                padding: EdgeInsets.all(ad.vBigSpace),
-                child: Center(
-                  child: Text("Noch keine Matches. Tippen um zu wiederholen.", textAlign: TextAlign.center),
-                ),
-              ),
-            );
-          } else {
-            // Handle errors while connecting
-            if (matchList.hasError) print('Error while loading Matches: ${matchList.error} ${matchList.connectionState}');
+        builder: (context, AsyncSnapshot<List<Match>> matches) {
+          if (matches.hasError) {
+            print('Error while loading Matches: ${matches.error} # ${matches.connectionState}');
             return InkWell(
               onTap: () => setState(() {}),
               child: Padding(
@@ -112,6 +41,90 @@ class _MatchViewState extends State<MatchView> {
               ),
             );
           }
+
+          switch (matches.connectionState) {
+            case ConnectionState.none:
+              return InkWell(
+                onTap: () => setState(() {}),
+                child: Padding(
+                  padding: EdgeInsets.all(ad.vBigSpace),
+                  child: Center(
+                    child: Text('Verbindungsfehler. Bitte versuchen Sie es erneut.'),
+                  ),
+                ),
+              );
+            case ConnectionState.waiting:
+              return CustomWidgets().getViewLoader(ac, 'Matches werden geladen...', ad);
+            case ConnectionState.active:
+              if (matches.hasData)
+                return Center(
+                  child: Column(
+                    children: <Widget>[
+                      ad.vMid(),
+                      Text(
+                        'Treffe jetzt interessante Leute!',
+                        style: TextStyle(fontSize: 20),
+                        textAlign: TextAlign.center,
+                      ),
+                      Container(
+                        margin: EdgeInsets.all(ad.vBigSpace),
+                        child: Text(
+                          'Tippe einfach auf eine Person, schau dir Ihr Profil an und entscheide ob du Sie kennenlernen möchtest.',
+                          style: TextStyle(fontSize: 16),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                      // Dotted indicator
+                      Center(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: List<Widget>.generate(
+                            matches.data.length,
+                                (index) => Container(
+                              width: ad.hSmallSpace,
+                              height: ad.hSmallSpace,
+                              margin: EdgeInsets.symmetric(vertical: ad.vSmall().height, horizontal: ad.hTiny().width),
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: _currentSlide == index ? ac.dotAc : ac.dotIn,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      ad.vSmall(),
+                      CarouselSlider(
+                        options: CarouselOptions(
+                          height: ad.cardHeight,
+                          enlargeCenterPage: true,
+                          onPageChanged: (index, reason) {
+                            setState(() {
+                              _currentSlide = index;
+                            });
+                          },
+                        ),
+                        items: matches.data.map((match) => getCardForMatch(match)).toList(),
+                      ),
+                    ],
+                  ),
+                );
+              if (!matches.hasData)
+                return InkWell(
+                  onTap: () => setState(() {}),
+                  child: Padding(
+                    padding: EdgeInsets.all(ad.vBigSpace),
+                    child: Center(
+                      child: Text("Noch keine Matches. Tippen um zu wiederholen.", textAlign: TextAlign.center),
+                    ),
+                  ),
+                );
+              break;
+            case ConnectionState.done:
+              return ListView(
+                children: matches.data.map((point) => Text(point.name)).toList(),
+              );
+          }
+          return null;
         },
       ),
     );
@@ -160,7 +173,7 @@ class _MatchViewState extends State<MatchView> {
                           )
                         : Container(
                             // TODO: standardimage
-                          ),
+                            ),
                     Positioned(
                       top: 0,
                       right: 0,

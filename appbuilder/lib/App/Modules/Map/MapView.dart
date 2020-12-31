@@ -1,3 +1,4 @@
+import 'package:appbuilder/App/CustomWidgets/CustomWidgets.dart';
 import 'package:appbuilder/App/Design/AppColors.dart';
 import 'package:appbuilder/App/Design/AppDimensions.dart';
 import 'package:appbuilder/App/Modules/Map/MapController.dart';
@@ -36,44 +37,42 @@ class _MapViewState extends State<MapView> {
       body: Container(
         child: StreamBuilder(
             stream: widget._controller.stream,
-            builder: (context, AsyncSnapshot<List<MapPoint>> asyncSnapshot) {
-              if (asyncSnapshot.hasError) {
-                print(asyncSnapshot.error.toString());
-                return Center(
-                  child: Text(
-                    'Fehler. Bitte versuchen Sie es erneut.',
+            builder: (context, AsyncSnapshot<List<MapPoint>> mapPoints) {
+
+              if (mapPoints.hasError) {
+                print('Error while loading Map: ${mapPoints.error} ${mapPoints.connectionState}');
+                print(mapPoints.error.toString());
+                return InkWell(
+                  onTap: () => setState(() {}),
+                  child: Padding(
+                    padding: EdgeInsets.all(ad.vBigSpace),
+                    child: Center(
+                      child: Text("Fehler. Tippen um zu wiederholen.", textAlign: TextAlign.center),
+                    ),
                   ),
                 );
               }
-              switch (asyncSnapshot.connectionState) {
+
+              switch (mapPoints.connectionState) {
                 case ConnectionState.none:
                   return Center(
                     child: Text('Verbindungsfehler. Bitte versuchen Sie es erneut.'),
                   );
                 case ConnectionState.waiting:
-                  return Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        CircularProgressIndicator(),
-                        ad.vSmall(),
-                        Text('Lade Kartenansicht...'),
-                      ],
-                    ),
-                  );
+                  return CustomWidgets().getViewLoader(ac, 'Map wird geladen...', ad);
                 case ConnectionState.active:
                   return GoogleMap(
                     onMapCreated: (GoogleMapController controller) {
                       widget._controller.gmc = controller;
                     },
-                    markers: getMarkers(asyncSnapshot.data),
+                    markers: getMarkers(mapPoints.data),
                     zoomControlsEnabled: false,
                     initialCameraPosition: CameraPosition(target: widget._controller.getUserLocation(), zoom: 5.7),
                   );
                   break;
                 case ConnectionState.done:
                   return ListView(
-                    children: asyncSnapshot.data.map((point) => Text(point.name)).toList(),
+                    children: mapPoints.data.map((point) => Text(point.name)).toList(),
                   );
               }
               return null;
